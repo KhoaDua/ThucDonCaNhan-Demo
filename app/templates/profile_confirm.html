@@ -69,8 +69,7 @@
 
 <aside class="review-aside" aria-label="Tổng quan BMI và năng lượng"><section class="card energy-summary"><div class="card-heading"><h2>{{ icon('bolt') }}Tổng quan năng lượng</h2></div>
 {% if body and body.bmi is not none %}<div class="bmi-row"><div><span class="small-label">Chỉ số BMI</span><strong class="bmi-number">{{ body.bmi|fmt }}</strong></div>{% if body.group_label %}<span class="bmi-label">{{ body.group_label }}</span>{% endif %}</div>
-<div class="day-energy"><span>{{ 'Mục tiêu theo bệnh cả ngày' if body.maintenance_target else 'Calo duy trì cả ngày' }}</span><strong>{{ body.day_target|fmt if body.day_target else '—' }}{% if body.day_target %} <small>kcal</small>{% endif %}</strong></div>
-{% if body.maintenance_target %}<p class="energy-context">Năng lượng duy trì ban đầu: {{ body.maintenance_target|fmt }} kcal/ngày.<br>{{ body.energy_reason }}{% if body.deficit_kcal %} · giảm {{ body.deficit_kcal|fmt }} kcal/ngày{% endif %}.</p>{% endif %}
+<div class="day-energy"><span>Mục tiêu calo áp dụng cả ngày</span><strong>{% if body.meals %}{{ body.day_target|num(2) }} <small>kcal</small>{% else %}—{% endif %}</strong></div>
 {% if body.meals %}<div class="meal-overview">{% for meal,item in body.meals.items() %}<div class="meal-row"><span>{{ icon({'breakfast':'sunrise','lunch':'sun','dinner':'moon'}[meal]) }}{{ meal|meal }}</span><strong>{{ item.target|fmt }} kcal</strong><small>{{ (item.ratio*100)|fmt }}% cả ngày · Khoảng {{ item.lower|fmt }} – {{ item.upper|fmt }} kcal</small></div>{% endfor %}</div>
 <div class="planned-total"><span>Tổng các bữa đã chọn</span><strong>{{ body.planned_target|fmt }} kcal/ngày</strong></div>
 {% else %}<p class="aside-footnote">Chưa áp dụng giới hạn calo cá nhân vì chưa chọn mục tiêu Kiểm soát năng lượng.</p>{% endif %}

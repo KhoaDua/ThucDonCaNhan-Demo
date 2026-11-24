@@ -24,14 +24,13 @@ def parse_health(form):
     health = {"intake_version": 3, "conditions": [c for c in selected if c in CONDITIONS],
               "declared_none": "none" in selected}
     if health['conditions'] and _first(form,'health_simulation_version'):
-        health.update(simulation_version=1,simulation_scenario=_first(form,'health_scenario'),
-                      simulation_scope_confirmed=_first(form,'health_simulation_scope')=='1')
-        if _first(form,'health_simulation_version') != '1':
-            errors['health_scenario']='Kịch bản mô phỏng đã thay đổi; hãy tải lại trang.'
-        if health['simulation_scenario'] not in disease.POLICY['scenarios']:
-            errors['health_scenario']='Chọn kịch bản giữ cân hoặc giảm cân theo bệnh.'
-        if not health['simulation_scope_confirmed']:
-            errors['health_simulation_scope']='Xác nhận phạm vi kịch bản mô phỏng để áp dụng bộ quy tắc.'
+        scenario = _first(form, "health_scenario")
+        if _first(form, "health_simulation_version") != "1":
+            errors["health_scenario"] = "Kịch bản mô phỏng đã thay đổi. Hãy tải lại trang."
+        elif scenario not in disease.POLICY["scenarios"]:
+            errors["health_scenario"] = "Chọn kịch bản giữ cân hoặc giảm cân theo bệnh."
+        # Lựa chọn hợp lệ xác định phạm vi giả định của kịch bản DEMO.
+        health.update(simulation_version=1, simulation_scenario=scenario, simulation_scope_confirmed=not errors)
     return health, errors
 
 

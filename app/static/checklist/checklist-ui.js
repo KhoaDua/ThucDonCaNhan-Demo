@@ -44,18 +44,16 @@
     const hadResults=previous!=='';
     previous=signature;
     const bmi=lines.find(t=>t.startsWith('BMI:'));
-    const base=lines.find(t=>t.startsWith('Calo duy trì ước tính cả ngày:'));
-    const effective=lines.find(t=>t.startsWith('Mục tiêu có hiệu lực theo bệnh:'));
+    const target=lines.find(t=>t.startsWith('Mục tiêu calo áp dụng cả ngày:'));
     const planned=lines.find(t=>t.startsWith('Tổng các bữa đã chọn:'));
     const meals=lines.filter(t=>/^(Bữa sáng|Bữa trưa|Bữa tối)[\s(:]/.test(t));
-    const messages=lines.filter(t=>!(/^(BMI:|Calo duy trì ước tính cả ngày:|Mục tiêu có hiệu lực theo bệnh:|Bộ quy tắc mô phỏng tự áp dụng|Bữa sáng|Bữa trưa|Bữa tối|Tổng các bữa đã chọn:|Khoảng ±10%)/.test(t)));
+    const messages=lines.filter(t=>!(/^(BMI:|Mục tiêu calo áp dụng cả ngày:|Bữa sáng|Bữa trưa|Bữa tối|Tổng các bữa đã chọn:|Khoảng ±10%)/.test(t)));
     for (const view of views) {
       const oldBmi=view.querySelector('[data-bmi-value]').textContent;
       const oldEnergy=view.querySelector('[data-energy-value]').textContent;
       view.querySelector('[data-bmi-value]').textContent=bmi ? afterColon(bmi).split(' · ')[0] : '—';
       view.querySelector('[data-bmi-status]').textContent=bmi?.includes(' · ') ? bmi.split(' · ').slice(1).join(' · ') : 'Chưa đủ thông tin';
-      view.querySelector('[data-energy-label]').textContent=effective ? 'Mục tiêu theo bệnh cả ngày' : 'Calo duy trì cả ngày';
-      view.querySelector('[data-energy-value]').textContent=effective || base ? afterColon(effective || base).split(' · ')[0] : '—';
+      view.querySelector('[data-energy-value]').textContent=target ? afterColon(target) : '—';
       const list=view.querySelector('[data-meal-targets]');
       list.replaceChildren();
       for (const text of meals) {

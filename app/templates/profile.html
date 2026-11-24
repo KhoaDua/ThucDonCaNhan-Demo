@@ -22,7 +22,7 @@
   </div>
 </header>
 {% endblock %}
-{% block page_scripts %}<script src="/static/checklist/checklist-ui.js?v=checklist-a-1"></script>{% endblock %}
+{% block page_scripts %}<script src="/static/checklist/checklist-ui.js?v=applied-energy-1"></script>{% endblock %}
 {% block content %}
 <section class="checklist-layout">
 <div class="page-intro">
@@ -58,7 +58,7 @@
     <label><input type="checkbox" name="goals" value="{{ key }}"{% if key == 'energy' %} aria-describedby="energy-goal-note"{% endif %} {% if key in (form.get('goals') or []) %}checked{% endif %}>{{ icon({'variety':'shuffle','energy':'bolt','less_salty':'salt'}[key], 'choice-icon') }} {{ label }}</label>
   {% endfor %}
   </div>{{ err('goals') }}
-  <p id="energy-goal-note" class="field-note">Chọn Kiểm soát năng lượng để áp dụng mức calo cá nhân.</p>
+  <p id="energy-goal-note" class="field-note">Mục tiêu calo được áp dụng khi đủ thông tin. Chọn Kiểm soát năng lượng để yêu cầu nhập đủ thông tin.</p>
 </fieldset>
 
 <fieldset class="checklist-group" data-body-module>
@@ -110,7 +110,6 @@
       <summary>Phạm vi mô phỏng</summary>
       <p>{{ disease_policy.scope }}</p>
     </details>
-    <label><input type="checkbox" name="health_simulation_scope" value="1" {{ chk('health_simulation_scope') }}> Tôi xác nhận phạm vi mô phỏng.</label>{{ err('health_simulation_scope') }}
   </div>
 </fieldset>
 

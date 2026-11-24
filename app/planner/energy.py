@@ -12,9 +12,19 @@ GROUP_LABELS = {"underweight": "Thiếu cân", "normal": "Bình thường", "ove
 MEAL_LABELS = {"breakfast": "Bữa sáng", "lunch": "Bữa trưa", "dinner": "Bữa tối"}
 
 
+def has_energy_inputs(body):
+    """Kiểm tra bộ đầu vào đã được chuẩn hóa có đủ để tính năng lượng."""
+    return bool(body and all(body.get(key) for key in BODY_FIELDS if key != "scope_confirmed"))
+
+
 def enabled(profile):
     from app.planner.disease import requested
-    return "energy" in (profile.get("checklist") or {}).get("goals", []) or requested(profile)
+    body = profile.get("body")
+    return (
+        "energy" in (profile.get("checklist") or {}).get("goals", [])
+        or requested(profile)
+        or (has_energy_inputs(body) and body.get("scope_confirmed") is True)
+    )
 
 
 def _decimal(value):
@@ -85,10 +95,11 @@ def parse_body(form, *, required=False, simulated_scope=False):
 
     answer = first("pregnancy_or_breastfeeding")
     from_simulation = required and simulated_scope and answer == ""
-    raw["scope_confirmed"] = from_simulation or (required and answer == "no")
+    raw["scope_confirmed"] = from_simulation or answer == "no"
     raw["scope_source"] = "simulation" if from_simulation else "answer"
     body, errors = validate_body(raw, required=required)
-    if errors.pop("body_scope_confirmed", None):
+    needs_answer = not required and not errors and has_energy_inputs(body) and answer not in ("yes", "no")
+    if errors.pop("body_scope_confirmed", None) or needs_answer:
         errors[answer_field] = (
             "Mục tiêu calo cá nhân chưa áp dụng khi đang mang thai hoặc cho con bú."
             if answer == "yes" else "Chọn Có hoặc Không để xác định phạm vi tính calo."

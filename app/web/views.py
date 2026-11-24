@@ -79,7 +79,10 @@ def _checklist_ctx(conn, settings, form, errors=None):
     health, health_errors = parse_health({"health_simulation_version": "1", **form})
     scope_scenarios = disease.body_scope_scenarios(settings.data_mode)
     simulated_scope = not health_errors and disease.uses_body_scope_assumption(health, scope_scenarios)
-    needs_scope_answer = ("energy" in (form.get("goals") or []) or bool(health["conditions"])) and not simulated_scope
+    body, _ = energy.parse_body(form)
+    needs_scope_answer = not simulated_scope and (
+        "energy" in (form.get("goals") or []) or bool(health["conditions"]) or energy.has_energy_inputs(body)
+    )
     return {**base_ctx(conn, settings), "form": form, "errors": errors or {}, "meal_order": MEAL_ORDER,
             "goals": GOALS, "ingredient_options": sorted(ingredients, key=str.casefold),
             "dish_options": [dish_choice(r) for r in cat.list_active_recipes()],
@@ -105,7 +108,6 @@ def profile_form(conn, settings, version=None, advanced=False) -> Page:
                 goals=checklist.get("goals", ["variety"] if form.get("prefer_variety") else []),
                 health_conditions=health.get("conditions") or (["none"] if health.get("declared_none") else []),
                 health_scenario=health.get('simulation_scenario',''),
-                health_simulation_scope='1' if health.get('simulation_scope_confirmed') else '',
                 allergen_choices=checklist.get("allergen_choices", []),
                 food_restrictions=checklist.get("food_restrictions", "yes" if avoid_ids or checklist.get("dishes") else ""),
                 avoid_food_choices=avoid_ids,
