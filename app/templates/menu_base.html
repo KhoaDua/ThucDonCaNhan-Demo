@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% from "profile_ui_macros.html" import icon %}
+{% block title %}Thực đơn dùng thử{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="/static/checklist/tokens.css?v=checklist-a-1">
+<link rel="stylesheet" href="/static/checklist/components.css?v=checklist-a-1">
+<link rel="stylesheet" href="/static/menu/menu.css?v=menu-a-1">
+{% endblock %}
+{% block body_attributes %} class="menu-page"{% endblock %}
+{% block main_attributes %} class="shell"{% endblock %}
+{% block footer_attributes %} class="shell"{% endblock %}
+{% block header %}
+{% include "profile_ui_icons.html" %}
+<header class="site-header"><div class="shell header-row"><a class="brand" href="/"><span class="brand-mark">{{ icon('leaf') }}</span>Thực đơn dùng thử</a><nav class="header-nav" aria-label="Điều hướng chính"><a href="/profile">1. Hồ sơ</a><a href="/plans" aria-current="page">2. Thực đơn</a>{% include "trial_logout.html" %}</nav></div></header>
+{% endblock %}
+{% block page_scripts %}<script src="/static/menu/menu-ui.js?v=menu-a-1"></script>{% endblock %}

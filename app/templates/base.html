@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Thực đơn dùng thử{% endblock %}</title>
+{% block styles %}<link rel="stylesheet" href="/static/style.css?v=display-cleanup-1">{% endblock %}
+<link rel="stylesheet" href="/static/trial_access.css">
+</head>
+<body{% block body_attributes %}{% endblock %}>
+{% block header %}
+<header class="top">
+  <a class="brand" href="/">Thực đơn dùng thử</a>
+  <nav>
+    <a href="/profile">1. Hồ sơ</a>
+    <a href="/plans">2. Thực đơn</a>
+    {% include "trial_logout.html" %}
+    <span class="sep"></span>
+    
+  </nav>
+</header>
+{% endblock %}
+
+<main{% block main_attributes %}{% endblock %}>
+{% block content %}{% endblock %}
+</main>
+<footer{% block footer_attributes %}{% endblock %}>
+  Dinh dưỡng: {% if usda %}{{ usda.label }} ({{ usda.release_id }}){% else %}<b>chưa nhập USDA</b>{% endif %}
+  · Bộ dữ liệu: {{ settings.dataset }} · AI: {{ ai_provider }}{% if ai_provider == 'mock' %} (giả lập){% endif %}
+  · Bộ giải: {{ settings.solver }}
+</footer>
+<script src="/static/app.js?v=checked-swaps-1"></script>
+<script src="/static/body.js?v=bmi-scope-2"></script>
+<script src="/static/display.js?v=display-cleanup-1"></script>
+{% block page_scripts %}{% endblock %}
+</body>
+</html>

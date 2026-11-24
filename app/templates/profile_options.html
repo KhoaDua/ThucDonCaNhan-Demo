@@ -1,0 +1,25 @@
+{% from "profile_fields.html" import v, err, chk with context %}
+<fieldset><legend>Sở thích và thời gian nấu (ưu tiên)</legend>
+  <label>Thích <input name="likes" value="{{ v('likes') }}" placeholder="vd: gà, cá"></label>
+  <label>Không thích <input name="dislikes" value="{{ v('dislikes') }}"></label>
+  {% if not goals %}<label class="inline"><input type="checkbox" name="prefer_variety" value="1" {{ chk('prefer_variety') }}> Ít lặp món</label>{% endif %}
+  <label>Thời gian nấu tối đa mỗi món (phút) <input name="max_prep_minutes" value="{{ v('max_prep_minutes') }}" class="{{ 'invalid' if errors.max_prep_minutes }}"></label>{{ err('max_prep_minutes') }}
+  <label class="inline"><input type="checkbox" name="prep_hard" value="1" {{ chk('prep_hard') }}> Thời gian nấu là điều kiện bắt buộc</label>
+</fieldset>
+
+<fieldset><legend>Ngân sách</legend>
+  <label>Số tiền (VND) <input name="budget_amount" value="{{ v('budget_amount') }}" class="{{ 'invalid' if errors.budget_amount }}"></label>{{ err('budget_amount') }}
+  <label>Kỳ <select name="budget_scope"><option value="period" {% if v('budget_scope') != 'day' %}selected{% endif %}>Cả kỳ</option><option value="day" {% if v('budget_scope') == 'day' %}selected{% endif %}>Mỗi ngày</option></select></label>{{ err('budget_scope') }}
+  <label>Cách tính <select name="budget_mode" class="{{ 'invalid' if errors.budget_mode }}"><option value="">— chọn —</option>
+    <option value="usage" {% if v('budget_mode') == 'usage' %}selected{% endif %}>Theo lượng sử dụng</option>
+    <option value="purchase" {% if v('budget_mode') == 'purchase' %}selected{% endif %}>Theo tiền mua cả gói</option></select></label>{{ err('budget_mode') }}
+  <label class="inline"><input type="checkbox" name="budget_hard" value="1" {{ chk('budget_hard') }}> Ngân sách là giới hạn bắt buộc</label>
+  <label class="inline"><input type="checkbox" name="budget_drop_cost_if_missing" value="1" {{ chk('budget_drop_cost_if_missing') }}> Nếu ngân sách là ưu tiên mà thiếu giá: đồng ý bỏ tiêu chí chi phí khỏi xếp hạng</label>
+</fieldset>
+
+<fieldset><legend>Nguyên liệu đang có</legend>
+  <label>Mỗi dòng: <code>fdc_id: số gam</code> <textarea name="inventory" rows="3" class="{{ 'invalid' if errors.inventory }}">{{ v('inventory') }}</textarea></label>{{ err('inventory') }}
+</fieldset>
+
+
+

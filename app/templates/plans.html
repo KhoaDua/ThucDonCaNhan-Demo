@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Thực đơn</h1>
+<h2>Thực đơn đã kiểm tra</h2>
+<ul>{% for p in plans %}<li><a href="/plans/{{ p.plan_id }}">Thực đơn #{{ p.plan_id }}</a> – phiên bản {{ p.current_version }}, hồ sơ v{{ p.profile_version }}, bộ {{ p.dataset }}, {{ p.created_at }}</li>{% else %}<li>Chưa có thực đơn nào.</li>{% endfor %}</ul>
+<h2>Các lần lập thực đơn</h2>
+<table><thead><tr><th>#</th><th>Trạng thái</th><th>Hồ sơ</th><th>Thời điểm</th></tr></thead><tbody>
+{% for r in runs %}<tr><td><a href="/runs/{{ r.run_id }}">{{ r.run_id }}</a></td><td class="st-{{ r.status }}">{{ r.status }}</td><td>v{{ r.profile_version }}</td><td>{{ r.created_at }}</td></tr>{% endfor %}
+</tbody></table>
+{% endblock %}

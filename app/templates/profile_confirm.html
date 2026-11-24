@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% from "profile_ui_macros.html" import icon %}
+{% set checklist=pv.data.get('checklist') or {} %}
+{% set body=pv.data.get('body_result') %}
+{% set health=checklist.get('health') or {} %}
+{% set ready=health_review.state=='ready' %}
+{% set nutrients=hard|selectattr('kind','in',['nutrient','nutrient_ratio'])|list %}
+{% set energy_rows=[] %}
+{% set nutrition_rows=[] %}
+{% for c in nutrients %}{% if (c.get('cid') or '').startswith('body_energy:') %}{% set _=energy_rows.append(c) %}{% else %}{% set _=nutrition_rows.append(c) %}{% endif %}{% endfor %}
+{% block title %}Xem lại ràng buộc · Thực đơn dùng thử{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="/static/checklist/tokens.css?v=checklist-a-1">
+<link rel="stylesheet" href="/static/checklist/components.css?v=checklist-a-1">
+<link rel="stylesheet" href="/static/review/review.css?v=review-gon-1">
+{% endblock %}
+{% block body_attributes %} class="review-page"{% endblock %}
+{% block main_attributes %} class="shell" id="top"{% endblock %}
+{% block footer_attributes %} class="review-footer shell"{% endblock %}
+{% block header %}
+{% include "profile_ui_icons.html" %}
+<header class="review-header"><div class="shell header-inner">
+<a class="brand" href="/"><span class="brand-mark">{{ icon('leaf') }}</span><span>Thực đơn dùng thử</span></a>
+<nav aria-label="Điều hướng chính"><a href="/profile" aria-current="page">1. Hồ sơ</a><a href="/plans">2. Thực đơn</a>{% include "trial_logout.html" %}</nav>
+</div></header>
+{% endblock %}
+{% block page_scripts %}<script src="/static/review/review-ui.js?v=review-a-1"></script>{% endblock %}
+{% block content %}
+
+<div class="page-heading"><div><h1>Xem lại ràng buộc</h1></div><figure class="review-art" aria-hidden="true"><div class="review-art-frame"><img src="/static/review/nutrition-review.svg" width="320" height="220" alt="" decoding="async"></div></figure></div>
+
+{% if message %}<div class="saved-message" role="status">{{ message }}</div>{% endif %}
+<section class="review-status {{ 'ready' if ready else 'pending' }}" role="status" aria-label="Trạng thái hồ sơ">
+<span class="status-icon">{{ icon('shield' if ready else 'clock') }}</span><div>
+<h2>{{ review_labels[health_review.state] }}</h2>
+{% if not ready %}<ul>{% for reason in health_review.reasons %}<li>{{ reason.message }}</li>{% endfor %}</ul>{% endif %}
+</div></section>
+
+<section class="profile-snapshot card" aria-labelledby="snapshot-title"><div class="card-heading"><h2 id="snapshot-title">{{ icon('person') }}Nhu cầu của bạn</h2></div>
+<dl class="snapshot-grid"><div><dt>{{ icon('calendar') }}Kỳ lập thực đơn</dt><dd>{{ pv.data.days }} ngày</dd></div><div><dt>{{ icon('plate') }}Các bữa cần lập</dt><dd>{% for meal in pv.data.meals %}{{ meal|meal }}{% if not loop.last %}, {% endif %}{% endfor %}</dd></div><div><dt>{{ icon('basket') }}Số món mỗi bữa</dt><dd>{{ pv.data.dishes_per_meal }} món/bữa</dd></div><div><dt>{{ icon('sliders') }}Mức khẩu phần</dt><dd>{{ pv.data.serving_levels|map('fmt')|join('; ') }}</dd></div></dl>
+<div class="snapshot-bottom"><div class="snapshot-goals"><span class="small-label">Mục tiêu ăn uống</span><div class="goal-chips">{% for goal in checklist.goals %}<span>{{ icon({'variety':'shuffle','energy':'bolt','less_salty':'salt'}.get(goal,'target')) }}{{ goal_labels[goal] }}</span>{% else %}<span>Chưa chọn mục tiêu ăn uống</span>{% endfor %}</div></div>
+<div class="snapshot-health"><span class="small-label">Tình trạng đã khai báo</span><strong>{{ icon('heart') }}{% for key in health.get('conditions',[]) %}{{ health_definitions[key].label }}{% if not loop.last %}, {% endif %}{% else %}{{ 'Không có tình trạng trong danh sách' if health.get('declared_none') else 'Chưa chọn tình trạng' }}{% endfor %}</strong></div></div>
+</section>
+
+<div class="review-grid"><div class="review-content">
+<section class="card condition-card"><div class="card-heading"><h2><span class="card-icon">{{ icon('target') }}</span>Mục tiêu và giới hạn dinh dưỡng</h2><span class="kind-badge hard">Bắt buộc</span></div>
+<ul class="condition-list">{% for c in nutrition_rows %}<li>{{ icon('shield') }}<span data-visible-condition>{{ c.label|replace(' [GIẢ LẬP]','') }}</span></li>{% else %}<li class="empty-line">{% if energy_rows %}Không có thêm giới hạn dinh dưỡng ngoài mục tiêu năng lượng bên dưới.{% else %}Chưa đặt giới hạn dinh dưỡng.{% endif %}</li>{% endfor %}</ul>
+{% if energy_rows %}<details class="energy-constraints"><summary>{{ icon('bolt') }}Giới hạn năng lượng cá nhân<span class="count">{{ energy_rows|length }} điều kiện</span></summary><ul class="condition-list">{% for c in energy_rows %}<li>{{ icon('bolt') }}<span data-visible-condition>{{ c.label|replace(' [GIẢ LẬP]','') }}</span></li>{% endfor %}</ul></details>{% endif %}
+</section>
+
+<section class="card condition-card exclusions"><div class="card-heading"><h2><span class="card-icon">{{ icon('shield') }}</span>Nguyên liệu và món cần tránh</h2><span class="kind-badge hard">Bắt buộc</span></div>
+<ul class="condition-list">{% for c in hard if c.kind=='exclude' %}<li>{{ icon('shield') }}<span data-visible-condition>{{ c.label }}</span></li>{% else %}<li class="empty-line">Chưa chọn nguyên liệu hoặc món cần tránh.</li>{% endfor %}</ul>
+{% set food_groups=hard|selectattr('kind','equalto','food_group')|list %}
+{% if food_groups %}<div class="subsection-heading">Điều kiện theo nhóm thực phẩm</div><ul class="condition-list">{% for c in food_groups %}<li>{{ icon('plate') }}<span data-visible-condition>{{ c.label|replace(' [GIẢ LẬP]','') }}</span></li>{% endfor %}</ul>{% endif %}
+</section>
+
+{% set other=hard|rejectattr('kind','in',['nutrient','nutrient_ratio','exclude','food_group'])|list %}
+{% if other %}<section class="card condition-card"><div class="card-heading"><h2><span class="card-icon">{{ icon('sliders') }}</span>Điều kiện bắt buộc khác</h2><span class="kind-badge hard">Bắt buộc</span></div><ul class="condition-list">{% for c in other %}<li>{{ icon('sliders') }}<span data-visible-condition>{{ c.label }}</span></li>{% endfor %}</ul></section>{% endif %}
+
+<section class="card condition-card preferences"><div class="card-heading"><h2><span class="card-icon">{{ icon('sparkles') }}</span>Tiêu chí ưu tiên</h2><span class="kind-badge soft">Ưu tiên mềm</span></div>
+<ul class="condition-list">{% for p in prefs %}<li>{{ icon('sparkles') }}<span>{{ p.label }}</span></li>{% else %}<li class="empty-line">Hồ sơ chưa có tiêu chí ưu tiên.</li>{% endfor %}</ul>
+</section>
+
+<details class="card technical-details"><summary>{{ icon('sliders') }}Chi tiết điều kiện bắt buộc và tiêu chí ưu tiên</summary>
+{% if hard %}<div class="table-scroll"><table><thead><tr><th>Điều kiện bắt buộc</th><th>Kỳ áp dụng</th><th>Nguồn</th></tr></thead><tbody>{% for c in hard %}<tr><td data-condition-label>{{ c.label }}</td><td>{{ SCOPES.get(c.scope,c.scope) }}</td><td>{{ c.source }}{% if c.classification_source %}<br>{{ c.classification_source }}{% endif %}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+<ul class="source-preferences">{% for p in prefs %}<li data-preference-source>{{ p.label }}{% if p.source %} · {{ p.source }}{% endif %}{% if p.classification_source %} · {{ p.classification_source }}{% endif %}</li>{% endfor %}</ul>
+</details>
+</div>
+
+<aside class="review-aside" aria-label="Tổng quan BMI và năng lượng"><section class="card energy-summary"><div class="card-heading"><h2>{{ icon('bolt') }}Tổng quan năng lượng</h2></div>
+{% if body and body.bmi is not none %}<div class="bmi-row"><div><span class="small-label">Chỉ số BMI</span><strong class="bmi-number">{{ body.bmi|fmt }}</strong></div>{% if body.group_label %}<span class="bmi-label">{{ body.group_label }}</span>{% endif %}</div>
+<div class="day-energy"><span>{{ 'Mục tiêu theo bệnh cả ngày' if body.maintenance_target else 'Calo duy trì cả ngày' }}</span><strong>{{ body.day_target|fmt if body.day_target else '—' }}{% if body.day_target %} <small>kcal</small>{% endif %}</strong></div>
+{% if body.maintenance_target %}<p class="energy-context">Năng lượng duy trì ban đầu: {{ body.maintenance_target|fmt }} kcal/ngày.<br>{{ body.energy_reason }}{% if body.deficit_kcal %} · giảm {{ body.deficit_kcal|fmt }} kcal/ngày{% endif %}.</p>{% endif %}
+{% if body.meals %}<div class="meal-overview">{% for meal,item in body.meals.items() %}<div class="meal-row"><span>{{ icon({'breakfast':'sunrise','lunch':'sun','dinner':'moon'}[meal]) }}{{ meal|meal }}</span><strong>{{ item.target|fmt }} kcal</strong><small>{{ (item.ratio*100)|fmt }}% cả ngày · Khoảng {{ item.lower|fmt }} – {{ item.upper|fmt }} kcal</small></div>{% endfor %}</div>
+<div class="planned-total"><span>Tổng các bữa đã chọn</span><strong>{{ body.planned_target|fmt }} kcal/ngày</strong></div>
+{% else %}<p class="aside-footnote">Chưa áp dụng giới hạn calo cá nhân vì chưa chọn mục tiêu Kiểm soát năng lượng.</p>{% endif %}
+{% else %}<p class="card-description">Chưa có dữ liệu BMI và năng lượng trong hồ sơ này.</p>{% endif %}
+</section></aside>
+</div>
+
+<form method="post" action="{{ '/profile/confirm' if pv.status != 'confirmed' or health_review.state != 'ready' else '/plans' }}" class="review-actions profile-actions">
+<input type="hidden" name="{{ 'v' if pv.status != 'confirmed' or health_review.state != 'ready' else 'profile_version' }}" value="{{ pv.version }}">
+<input type="hidden" name="request_token" value="{{ token }}">
+<div class="shell action-inner"><div class="action-buttons">
+{% if ready %}<a class="button secondary" href="/profile?v={{ pv.version }}">{{ icon('sliders') }}Sửa câu trả lời</a><button class="button" type="submit">{{ icon('plate') }}{{ 'Xác nhận và lập thực đơn' if pv.status=='draft' else 'Lập thực đơn' }}</button>
+{% else %}<button class="button secondary" type="submit">{{ icon('clock') }}Kiểm tra lại điều kiện</button><a class="button" href="/profile?v={{ pv.version }}">{{ icon('sliders') }}Bổ sung thông tin</a>{% endif %}
+</div></div></form>
+{% endblock %}

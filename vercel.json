@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "fastapi",
+  "functions": {
+    "vercel_app.py": {
+      "includeFiles": "{catalog/**,app/templates/**,app/static/**,app/planner/*.json}"
+    }
+  }
+}

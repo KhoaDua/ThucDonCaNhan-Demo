@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" fill="none">
+  <!-- Minh họa trang trí tự dựng, đồng bộ với bảng màu xanh của giao diện. -->
+  <ellipse cx="165" cy="195" rx="100" ry="11" fill="#DCE9DF" opacity=".65"/>
+  <path d="M72 52c30-39 104-49 153-12 44 33 54 99 12 130-42 32-112 33-157-2-38-30-39-77-8-116Z" fill="#EAF4EE"/>
+  <circle cx="166" cy="112" r="75" fill="white" stroke="#BCD6C6" stroke-width="2"/>
+  <circle cx="166" cy="112" r="61" fill="#F4F8F3" stroke="#E0EBE2" stroke-width="1.5"/>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <path d="M119 96c-12-15 1-34 17-25 1-23 28-23 33-4 20-6 31 16 14 27 4 19-18 29-28 16-15 15-38 7-36-14Z" fill="#6CA382" stroke="#4D8767" stroke-width="1.5"/>
+    <path d="m130 82 24 25m-3-34 3 34m19-27-19 27" stroke="#D8EADB" stroke-width="2"/>
+    <ellipse cx="122" cy="117" rx="12" ry="8" transform="rotate(-25 122 117)" fill="#A7C9AD" stroke="#80AD91" stroke-width="1.5"/>
+    <ellipse cx="136" cy="129" rx="12" ry="8" transform="rotate(-25 136 129)" fill="#BAD6B6" stroke="#80AD91" stroke-width="1.5"/>
+    <path d="M181 80c13-9 29 1 32 14 6 20-4 31-18 28-12 3-23-7-23-20-2-10 1-17 9-22Z" fill="#B3CDB1" stroke="#8FB49B" stroke-width="1.5"/>
+    <path d="m181 86 22 23m-18-28 23 22m-29-7 13 17" stroke="#E9F2E3" stroke-width="3"/>
+    <path d="M169 134c11-17 37-11 39 7 2 18-18 28-32 20-16 1-18-18-7-27Z" fill="#D6E1C6" stroke="#B1C8A6" stroke-width="1.5"/>
+    <path d="m174 140 4-4m6 11 4-4m8-4 3 4m-26 7 4 3m17 0 4-3" stroke="#F6F9EF" stroke-width="3"/>
+    <circle cx="143" cy="153" r="10" fill="#467E61"/>
+    <circle cx="123" cy="143" r="8" fill="#81AC8D"/>
+    <path d="m140 150 6 6m-1-7-4 7m-21-15 6 4" stroke="#BEDCC5" stroke-width="1.5"/>
+    <path d="M72 111v50m-6-50v12c0 9 12 9 12 0v-12m174-34v54m0-54c-12 7-13 28 0 28" stroke="#789A86" stroke-width="3"/>
+    <path d="M43 77c-4-22 13-33 32-28-4 21-18 32-32 28Z" fill="#8BB99C" stroke="#649677" stroke-width="1.5"/>
+    <path d="m42 82 23-25" stroke="#649677" stroke-width="1.5"/>
+    <path d="M250 172c7-17 25-20 38-10-10 17-25 22-38 10Z" fill="#A6C9AD" stroke="#7EAA8D" stroke-width="1.5"/>
+    <path d="m249 177 26-12" stroke="#7EAA8D" stroke-width="1.5"/>
+    <g transform="rotate(-8 67 133)">
+      <rect x="23" y="111" width="76" height="51" rx="12" fill="white" stroke="#BCD6C6" stroke-width="1.5"/>
+      <rect x="34" y="122" width="13" height="13" rx="4" fill="#EAF4EE"/>
+      <path d="m38 128 3 3 5-6" stroke="#126B5E" stroke-width="1.7"/>
+      <path d="M55 126h30m-30 7h20m-38 14h43" stroke="#A2BDB0" stroke-width="3"/>
+    </g>
+    <g transform="rotate(8 252 55)">
+      <rect x="221" y="34" width="62" height="43" rx="11" fill="white" stroke="#BCD6C6" stroke-width="1.5"/>
+      <circle cx="236" cy="55" r="7" fill="#EAF4EE"/>
+      <path d="m233 55 2 2 4-5" stroke="#126B5E" stroke-width="1.6"/>
+      <path d="M250 51h20m-20 8h14" stroke="#A2BDB0" stroke-width="3"/>
+    </g>
+    <path d="M104 26v9m-4-4h8m171 68v9m-4-4h8" stroke="#A4C6AF" stroke-width="2"/>
+    <circle cx="77" cy="186" r="3" stroke="#A4C6AF" stroke-width="1.5"/>
+    <circle cx="283" cy="132" r="3" stroke="#A4C6AF" stroke-width="1.5"/>
+  </g>
+</svg>

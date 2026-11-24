@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% from "profile_fields.html" import v, err, chk with context %}
+{% from "profile_ui_macros.html" import icon, section_title %}
+{% block title %}Checklist nhu cầu · Thực đơn dùng thử{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="/static/checklist/tokens.css?v=checklist-a-1">
+<link rel="stylesheet" href="/static/checklist/components.css?v=checklist-a-1">
+<link rel="stylesheet" href="/static/checklist/checklist.css?v=checklist-bmi-scope-2">
+{% endblock %}
+{% block body_attributes %} class="checklist-page"{% endblock %}
+{% block main_attributes %} class="shell" id="top"{% endblock %}
+{% block footer_attributes %} class="checklist-footer shell"{% endblock %}
+{% block header %}
+{% include "profile_ui_icons.html" %}
+<header class="checklist-header">
+  <div class="shell checklist-header-inner">
+    <a class="brand" href="/"><span class="brand-mark">{{ icon('leaf') }}</span><span>Thực đơn dùng thử</span></a>
+    <nav aria-label="Điều hướng chính">
+      <a href="/profile" aria-current="page">1. Hồ sơ</a>
+      <a href="/plans">2. Thực đơn</a>
+      {% include "trial_logout.html" %}
+      
+    </nav>
+  </div>
+</header>
+{% endblock %}
+{% block page_scripts %}<script src="/static/checklist/checklist-ui.js?v=checklist-a-1"></script>{% endblock %}
+{% block content %}
+<section class="checklist-layout">
+<div class="page-intro">
+<div class="intro-copy">
+<h1>Checklist nhu cầu lập thực đơn</h1>
+</div>
+{% include "profile_ui_art.html" %}
+</div>
+<form method="post" action="/profile" class="profile checklist-form" id="profile-checklist" novalidate>
+<div class="form-flow">
+<input type="hidden" name="profile_mode" value="checklist">
+<input type="hidden" name="food_checklist_version" value="1">
+{{ err("food_checklist") }}
+<input type="hidden" name="base_version" value="{{ v('base_version') }}">
+<fieldset class="checklist-group">
+  <legend>{{ section_title('calendar', 'Kỳ lập thực đơn') }}</legend>
+  <div class="checklist-grid">
+    <div><label for="days">Bạn muốn lập thực đơn cho bao nhiêu ngày?</label>
+      <input id="days" name="days" value="{{ v('days') }}" inputmode="numeric" class="{{ 'invalid' if errors.days }}">{{ err('days') }}
+    </div>
+    <div><span>Các bữa cần lập</span>
+      <div class="choice-list">
+        {% for m in meal_order %}<label><input type="checkbox" name="meals" value="{{ m }}" {% if m in (form.get('meals') or []) %}checked{% endif %}>{{ icon({'breakfast':'sunrise','lunch':'sun','dinner':'moon'}[m], 'choice-icon') }} {{ m|meal }}</label>{% endfor %}
+      </div>{{ err('meals') }}
+    </div>
+  </div>
+</fieldset>
+
+<fieldset class="checklist-group">
+  <legend>{{ section_title('target', 'Bạn muốn ăn uống theo mục tiêu nào?') }}</legend>
+  <div class="choice-list">
+  {% for key, label in goals.items() %}
+    <label><input type="checkbox" name="goals" value="{{ key }}"{% if key == 'energy' %} aria-describedby="energy-goal-note"{% endif %} {% if key in (form.get('goals') or []) %}checked{% endif %}>{{ icon({'variety':'shuffle','energy':'bolt','less_salty':'salt'}[key], 'choice-icon') }} {{ label }}</label>
+  {% endfor %}
+  </div>{{ err('goals') }}
+  <p id="energy-goal-note" class="field-note">Chọn Kiểm soát năng lượng để áp dụng mức calo cá nhân.</p>
+</fieldset>
+
+<fieldset class="checklist-group" data-body-module>
+  <legend>{{ section_title('person', 'BMI người dùng') }}</legend>
+  <div class="checklist-grid">
+    {% for key, label, mode in [('height_cm','Chiều cao (cm)','decimal'),('weight_kg','Cân nặng (kg)','decimal'),('age_years','Tuổi (năm)','numeric')] %}
+    <div><label for="body_{{ key }}">{{ label }}</label><input id="body_{{ key }}" name="body_{{ key }}" value="{{ v('body_' + key) }}" inputmode="{{ mode }}" class="{{ 'invalid' if errors.get('body_' + key) }}">{{ err('body_' + key) }}</div>
+    {% endfor %}
+    <div><label for="body_sex">Giới tính dùng trong công thức</label>
+      <select id="body_sex" name="body_sex"><option value="">Chọn giới tính</option>{% for key, label in body_policy.sex_labels.items() %}<option value="{{ key }}" {% if v('body_sex')|trim == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>{{ err('body_sex') }}
+    </div>
+    <div><label for="body_activity">Mức vận động thường ngày</label>
+      <select id="body_activity" name="body_activity"><option value="">Chọn mức vận động</option>{% for key, item in body_policy.activity.items() %}<option value="{{ key }}" {% if v('body_activity')|trim == key %}selected{% endif %}>{{ item.label }}</option>{% endfor %}</select>{{ err('body_activity') }}
+    </div>
+  </div>
+  <input type="hidden" name="body_scope_version" value="2">
+  <fieldset class="body-scope-question" data-body-scope-question{% if not needs_scope_answer %} hidden{% endif %}>
+    <legend>Bạn có đang mang thai hoặc cho con bú không?</legend>
+    <div class="choice-list">
+      {% for value, label in [('yes', 'Có'), ('no', 'Không')] %}
+      <label><input type="radio" name="body_pregnancy_or_breastfeeding" value="{{ value }}"{% if v('body_pregnancy_or_breastfeeding')|trim == value %} checked{% endif %}{% if not needs_scope_answer %} disabled{% endif %}> {{ label }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+  {{ err('body_pregnancy_or_breastfeeding') }}{{ err('body_scope_confirmed') }}{{ err('body') }}
+  <div class="mobile-summary">{% include "profile_ui_energy.html" %}</div>
+  <details class="calculation-details">
+    <summary>Chi tiết BMI và năng lượng</summary>
+    <div class="note" data-body-preview aria-live="polite">Nhập chiều cao và cân nặng để xem BMI.</div>
+  </details>
+</fieldset>
+<script id="body-policy-data" type="application/json">{{ body_policy|tojson }}</script>
+<script id="disease-policy-data" type="application/json">{{ disease_policy|tojson }}</script>
+<script id="body-scope-scenarios" type="application/json">{{ body_scope_scenarios|tojson }}</script>
+
+<fieldset class="checklist-group" data-health-checklist>
+  <legend>{{ section_title('heart', 'Tình trạng sức khỏe đã được chẩn đoán') }}</legend>
+  <input type="hidden" name="health_simulation_version" value="1">
+  <div class="choice-list">
+    {% for key, definition in health_definitions.items() %}
+    <label><input type="checkbox" name="health_conditions" value="{{ key }}" {% if key in (form.get('health_conditions') or []) %}checked{% endif %}> {{ definition.label }}</label>
+    {% endfor %}
+    <label><input type="checkbox" name="health_conditions" value="none" {% if 'none' in (form.get('health_conditions') or []) %}checked{% endif %}> Không có</label>
+  </div>{{ err('health_conditions') }}
+  <div data-disease-scenario>
+    <label for="health_scenario">Mục tiêu mô phỏng</label>
+    <select id="health_scenario" name="health_scenario"><option value="">Chọn mục tiêu</option>{% for key, label in disease_policy.scenarios.items() %}<option value="{{ key }}" {% if v('health_scenario')|trim == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>{{ err('health_scenario') }}
+    <details class="calculation-details">
+      <summary>Phạm vi mô phỏng</summary>
+      <p>{{ disease_policy.scope }}</p>
+    </details>
+    <label><input type="checkbox" name="health_simulation_scope" value="1" {{ chk('health_simulation_scope') }}> Tôi xác nhận phạm vi mô phỏng.</label>{{ err('health_simulation_scope') }}
+  </div>
+</fieldset>
+
+<fieldset class="checklist-group" data-allergen-checklist>
+  <legend>{{ section_title('shield', 'Thực phẩm dị ứng cần loại trừ') }}</legend>
+  <div class="choice-list">
+    <label><input type="checkbox" name="allergen_choices" value="none" {% if 'none' in (form.get('allergen_choices') or []) %}checked{% endif %}> Không có</label>
+    {% for item in allergen_options %}
+    <label><input type="checkbox" name="allergen_choices" value="{{ item.id }}" {% if item.id in (form.get('allergen_choices') or []) %}checked{% endif %}> {{ item.name }}</label>
+    {% endfor %}
+  </div>{{ err('allergen_choices') }}
+</fieldset>
+
+<fieldset class="checklist-group" data-food-restrictions>
+  <legend>{{ section_title('plate', 'Bạn có thực phẩm cần tránh hoặc hạn chế không?') }}</legend>
+  <div class="choice-list">
+    {% for key, label in [('yes','Có'),('no','Không')] %}
+    <label><input type="radio" name="food_restrictions" value="{{ key }}" {% if v('food_restrictions')|trim == key %}checked{% endif %}> {{ label }}</label>
+    {% endfor %}
+  </div>{{ err('food_restrictions') }}
+  <div data-food-choices {% if v('food_restrictions')|trim != 'yes' %}hidden{% endif %}>
+    <fieldset>
+      <legend>Cần tránh hoàn toàn</legend>
+      <div class="choice-list">
+      {% for item in food_options %}
+      <label><input type="checkbox" name="avoid_food_choices" value="{{ item.id }}" {% if item.id in (form.get('avoid_food_choices') or []) %}checked{% endif %}> {{ item.name }}</label>
+      {% endfor %}
+      </div>{{ err('avoid_food_choices') }}
+    </fieldset>
+    <fieldset>
+      <legend>Muốn hạn chế</legend>
+      <div class="choice-list">
+      {% for item in food_options %}
+      <label><input type="checkbox" name="limit_food_choices" value="{{ item.id }}" {% if item.id in (form.get('limit_food_choices') or []) %}checked{% endif %}> {{ item.name }}</label>
+      {% endfor %}
+      </div>{{ err('limit_food_choices') }}
+    </fieldset>
+    <details class="dish-picker">
+      <summary>Chọn món cần tránh (tùy chọn)</summary>
+      <div class="choice-list">
+      {% for item in dish_choices %}
+      <label><input type="checkbox" name="avoid_dish_choices" value="{{ item.id }}" {% if item.id in (form.get('avoid_dish_choices') or []) %}checked{% endif %}> {{ item.name }}</label>
+      {% endfor %}
+      </div>{{ err('avoid_dish_choices') }}
+    </details>
+  </div>
+</fieldset>
+
+<details class="profile-extra" {% if errors.keys()|select('in', ['dishes_per_meal', 'serving_levels', 'max_prep_minutes', 'budget_amount', 'budget_scope', 'budget_mode', 'inventory'])|list %}open{% endif %}>
+  <summary><span class="details-title">{{ icon('sliders') }}<span>Khẩu phần, sở thích, ngân sách và tồn kho</span></span></summary>
+  <fieldset>
+    <legend>Khẩu phần</legend>
+    <label>Số món mỗi bữa <input name="dishes_per_meal" value="{{ v('dishes_per_meal') }}" inputmode="numeric"></label>{{ err('dishes_per_meal') }}
+    <label>Các mức khẩu phần <input name="serving_levels" value="{{ v('serving_levels') }}" placeholder="Ví dụ: 1; 1,5"></label>{{ err('serving_levels') }}
+  </fieldset>
+  {% include "profile_options.html" %}
+</details>
+
+{% if v('rule_set')|trim or v('avoid')|trim or v('limit_metric_0')|trim %}
+<p class="muted">Hồ sơ này có điều kiện nhập thủ công. Xem và chỉnh các điều kiện đó trong phần nâng cao.</p>
+{% endif %}
+{{ err('rule_set') }}
+</div>
+<aside class="desktop-summary" aria-label="Tóm tắt BMI và năng lượng">
+  {% include "profile_ui_energy.html" %}
+</aside>
+<div class="action-bar">
+  <div class="shell action-bar-inner">
+    <div class="action-button-slot"><button type="submit" class="button">{{ icon('save') }}<span>Lưu và xem lại nhu cầu</span></button></div>
+  </div>
+</div>
+</form>
+</section>
+{% endblock %}

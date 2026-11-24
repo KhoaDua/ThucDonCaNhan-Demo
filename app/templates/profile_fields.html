@@ -1,0 +1,4 @@
+{% macro v(k) %}{% set x = form.get(k, '') %}{% if x is string %}{{ x }}{% elif x %}{{ x[0] }}{% endif %}{% endmacro %}
+{% macro err(k) %}{% if errors.get(k) %}<div class="err" data-field="{{ k }}">{{ errors[k] }}</div>{% endif %}{% endmacro %}
+{% macro chk(k) %}{% if v(k)|trim %}checked{% endif %}{% endmacro %}
+

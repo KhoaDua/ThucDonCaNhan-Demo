@@ -1,0 +1,92 @@
+{
+  "policy_id": "ENERGY-MAINT-DEMO-V1",
+  "version": 1,
+  "educational": true,
+  "bmi": {
+    "underweight_below": 18.5,
+    "overweight_from": 25.0,
+    "obesity_from": 30.0
+  },
+  "age_min": 18,
+  "age_max_input": 120,
+  "height_range_cm": [
+    50,
+    250
+  ],
+  "weight_range_kg": [
+    20,
+    400
+  ],
+  "sex_labels": {
+    "male": "Nam",
+    "female": "Nữ"
+  },
+  "age_bands": [
+    {
+      "min_age": 18,
+      "max_age_exclusive": 30,
+      "male": [
+        15.057,
+        692.2
+      ],
+      "female": [
+        14.818,
+        486.6
+      ]
+    },
+    {
+      "min_age": 30,
+      "max_age_exclusive": 60,
+      "male": [
+        11.472,
+        873.1
+      ],
+      "female": [
+        8.126,
+        845.6
+      ]
+    },
+    {
+      "min_age": 60,
+      "max_age_exclusive": null,
+      "male": [
+        11.711,
+        587.7
+      ],
+      "female": [
+        9.082,
+        658.5
+      ]
+    }
+  ],
+  "activity": {
+    "light": {
+      "label": "Nhẹ — phần lớn thời gian ít vận động",
+      "factor": 1.5
+    },
+    "moderate": {
+      "label": "Vừa — thường xuyên đi lại hoặc vận động",
+      "factor": 1.8
+    },
+    "high": {
+      "label": "Cao — thường xuyên hoạt động thể lực nặng",
+      "factor": 2.2
+    }
+  },
+  "meal_ratios": {
+    "breakfast": 0.3,
+    "lunch": 0.4,
+    "dinner": 0.3
+  },
+  "tolerance": 0.1,
+  "sources": {
+    "bmi": "https://apps.who.int/nutrition/landscape/help.aspx?helpid=420",
+    "bmr_and_pal": "https://www.fao.org/4/y5686e/y5686e07.htm"
+  },
+  "design_parameters": [
+    "Hệ số PAL 1.5/1.8/2.2 là giá trị đại diện được chọn cho DEMO.",
+    "Biên độ ±10% là khoảng chấp nhận của bộ chọn món, không phải sai số y khoa.",
+    "Tỷ lệ sáng/trưa/tối 30/40/30 là cấu hình thử nghiệm đã được người dùng đồng ý.",
+    "Các giới hạn nhập liệu chỉ để phát hiện sai đơn vị hoặc giá trị cần kiểm tra lại."
+  ]
+}

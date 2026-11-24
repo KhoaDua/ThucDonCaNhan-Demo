@@ -1,0 +1,13 @@
+.env
+.env.*
+.venv/
+.vercel/
+.local-data/
+.runtime/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.db
+*.db-wal
+*.db-shm
+*.log

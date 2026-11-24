@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ title }}</h1>
+<p>{{ text }}</p>
+{% if back %}<p><a href="{{ back }}">← Quay lại</a></p>{% endif %}
+{% endblock %}

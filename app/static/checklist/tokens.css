@@ -1,0 +1,36 @@
+/* Phương án A — dùng riêng cho trang Checklist. */
+:root {
+  color-scheme: light;
+  --a-canvas: #F7F8F4;
+  --a-surface: #FFFFFF;
+  --a-primary: #126B5E;
+  --a-primary-hover: #0D5349;
+  --a-primary-soft: #EAF4EE;
+  --a-ink: #213A32;
+  --a-muted: #5D7066;
+  --a-line: #DCE5DF;
+  --a-input-line: #7D9387;
+  --a-disabled-bg: #EDF0EC;
+  --a-disabled-ink: #5D6B62;
+  --a-success: #256548;
+  --a-success-bg: #EDF6EF;
+  --a-warning: #875711;
+  --a-warning-bg: #FFF5DF;
+  --a-error: #AE3833;
+  --a-error-bg: #FFF0ED;
+  --a-info: #326580;
+  --a-info-bg: #EEF6FA;
+  --a-focus: #126B5E;
+  --a-font: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --a-space-1: .25rem;
+  --a-space-2: .5rem;
+  --a-space-3: .75rem;
+  --a-space-4: 1rem;
+  --a-space-6: 1.5rem;
+  --a-space-8: 2rem;
+  --a-space-12: 3rem;
+  --a-radius-input: .625rem;
+  --a-radius-card: 1rem;
+  --a-control-height: 2.75rem;
+  --a-shadow: 0 8px 28px rgb(33 58 50 / 5%);
+}

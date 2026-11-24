@@ -1,0 +1,26 @@
+{% extends "menu_base.html" %}
+{% block content %}
+<section class="page-heading compact"><div><p class="eyebrow">Kết quả lập thực đơn</p><h1>{{ 'Đã tạo thực đơn' if run.status=='validated' else 'Cần xem lại dữ liệu đầu vào' }}</h1><p class="muted">{{ 'Mở thực đơn đã lưu để xem các bữa ăn.' if run.status=='validated' else 'Hệ thống giữ nguyên các điều kiện bắt buộc đã xác nhận.' }}</p></div></section>
+<section class="failure-card">
+{% set d = run.detail %}
+<h1>Kết quả lập thực đơn{% if run.run_id %} #{{ run.run_id }}{% endif %}</h1>
+<div class="status st-{{ run.status }}"><b>{{ run.status }}</b> – {{ run.status|status_text }}</div>
+{% if d.plan_id %}<p><a href="/plans/{{ d.plan_id }}">Xem thực đơn →</a></p>{% endif %}
+{% if d.reasons %}<h2>Nguyên nhân</h2><ul>{% for r in d.reasons %}<li>{{ r }}</li>{% endfor %}</ul>{% endif %}
+{% if d.violations %}<h2>Điều kiện bị vi phạm</h2><ul>{% for x in d.violations %}<li>{{ x.scope_label }}: {{ x.detail }}</li>{% endfor %}</ul>{% endif %}
+{% if d.suggestions %}<h2>Gợi ý điều chỉnh (chỉ điều kiện bạn được quyền sửa)</h2><ul>{% for s in d.suggestions %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}
+{% if d.locked %}<p class="muted">Không đề xuất nới: {{ d.locked|join('; ') }} (giới hạn sức khỏe/danh sách tránh đã xác nhận).</p>{% endif %}
+{% if d.needs_confirmation == 'drop_cost' %}<p><a href="/profile">Mở checklist để xác nhận bỏ tiêu chí chi phí hoặc bổ sung giá →</a></p>{% endif %}
+{% if d.notes %}<p class="muted">{{ d.notes|join(' ') }}</p>{% endif %}
+{% if d.screen and d.screen.excluded %}
+<h2>Món bị loại khi sàng lọc</h2>
+<table><thead><tr><th>Món</th><th>Loại lý do</th><th>Chi tiết</th></tr></thead><tbody>
+{% for e in d.screen.excluded %}<tr><td>{{ e.name }} ({{ e.recipe_id }})</td><td>{{ 'thiếu dữ liệu' if e.missing_data else 'vi phạm điều kiện' }}</td>
+<td>{% for r in e.reasons %}{{ r.text }}: {{ r.detail }}{% if not loop.last %}; {% endif %}{% endfor %}</td></tr>{% endfor %}
+</tbody></table>{% endif %}
+{% if d.solver %}<p class="muted">Bộ giải {{ d.solver.name }}: {{ d.solver.status }}, {{ d.solver.nodes }} nút, {{ d.solver.elapsed_s }} giây.</p>{% endif %}
+{% if run.status in ('search_timeout',) and token %}
+<form method="post" action="/plans"><input type="hidden" name="request_token" value="{{ token }}"><input type="hidden" name="profile_version" value="{{ run.profile_version }}"><button>Thử lại</button></form>{% endif %}
+<p><a href="/profile">← Sửa hồ sơ</a></p>
+</section>
+{% endblock %}

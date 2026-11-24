@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "approved_by": "Khoa Dứa — chủ hệ thống",
+  "approval_basis": "Người dùng đồng ý triển khai phương án trong cuộc trò chuyện; chỉ cho mô phỏng môn học",
+  "clinical_reviewed": false,
+  "mode": "demo",
+  "intake_version": 1,
+  "policies": {
+    "type2_diabetes": {
+      "id": "SIM-TYPE2-V1",
+      "label": "Tiểu đường type 2",
+      "groups": [
+        "sweet_drinks",
+        "fruit_juice_drinks",
+        "hfcs"
+      ],
+      "carb_range": [
+        0.4,
+        0.45
+      ]
+    },
+    "gout": {
+      "id": "SIM-GOUT-V1",
+      "label": "Gout",
+      "groups": [
+        "red_meat",
+        "offal",
+        "selected_seafood",
+        "alcohol",
+        "hfcs",
+        "sweet_drinks"
+      ]
+    },
+    "combined": {
+      "id": "SIM-TYPE2-GOUT-V1",
+      "label": "Tiểu đường type 2 và gout"
+    }
+  },
+  "scenarios": {
+    "maintenance": "Giữ cân",
+    "weight_loss": "Giảm cân (BMI từ 25)"
+  },
+  "deficit_kcal": 500,
+  "minimum_bmi": 18.5,
+  "weight_loss_bmi": 25,
+  "energy_floor": {
+    "female": 1200,
+    "male": 1500
+  },
+  "fiber_per_1000_kcal": 14,
+  "sodium_mg_day": 2300,
+  "saturated_fat_energy_max": 0.1,
+  "scope": "Kịch bản giả định: người trưởng thành, bệnh ổn định; không bệnh thận, không mang thai/cho con bú; không có chỉ định bữa ăn theo thuốc hoặc insulin riêng. Không xác nhận tình trạng y tế thực của người dùng.",
+  "sources": {
+    "ada_nutrition": "https://doi.org/10.2337/dc26-S005",
+    "ada_weight": "https://doi.org/10.2337/dc26-S008",
+    "gout": "https://www.niams.nih.gov/health-topics/gout/diagnosis-treatment-and-steps-to-take",
+    "acr": "https://doi.org/10.1002/art.41247",
+    "who_fat": "https://www.who.int/news/item/17-07-2023-who-updates-guidelines-on-fats-and-carbohydrates"
+  },
+  "design_notes": [
+    "Carbohydrate 40–45% là tham số mô phỏng do người dùng duyệt, không phải tỷ lệ chung cho mọi người bệnh.",
+    "Chuyển hạn chế thực phẩm thành loại hoàn toàn là lựa chọn mô phỏng.",
+    "Natri phân bổ theo tổng tỷ lệ bữa được chọn; chất xơ và chất béo bão hòa tính trên kcal thực tế.",
+    "Ngưỡng chặn 1200/1500 áp dụng cận dưới sau giảm, không là chứng nhận an toàn lâm sàng.",
+    "Các giới hạn nền áp dụng cho gout là lựa chọn thiết kế, không phải ngưỡng điều trị purin."
+  ]
+}

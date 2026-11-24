@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vào bản dùng thử · Thực đơn cá nhân</title>
+  <link rel="stylesheet" href="/static/checklist/tokens.css">
+  <link rel="stylesheet" href="/static/checklist/components.css">
+  <link rel="stylesheet" href="/static/trial_access.css">
+</head>
+<body class="trial-entry">
+  <main class="trial-entry-card">
+    <h1>Vào bản dùng thử</h1>
+    <p>Nhập mã mời để mở khu vực lập thực đơn của bạn.</p>
+    <form action="/vao-thu" method="post">
+      <label for="invite-code">Mã mời</label>
+      <input id="invite-code" name="code" type="password" required maxlength="64"
+             autocomplete="off" autocapitalize="none" spellcheck="false"
+             {% if error %}aria-invalid="true" aria-describedby="invite-error"{% endif %}>
+      {% if error %}<p class="trial-entry-error" id="invite-error" role="alert">{{ error }}</p>{% endif %}
+      <button class="button" type="submit">Vào dùng thử</button>
+    </form>
+  </main>
+</body>
+</html>

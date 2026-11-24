@@ -1,0 +1,527 @@
+{
+  "version": 2,
+  "classification_review": "Khoa Dứa duyệt phạm vi mô phỏng; không gắn nhãn kiểm định y khoa",
+  "foods": [
+    {
+      "fdc_id": 170379,
+      "name": "Bông cải xanh",
+      "expected_description_prefix": "Broccoli, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 171287,
+      "name": "Trứng gà",
+      "expected_description_prefix": "Egg, whole, raw, fresh",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 174531,
+      "name": "Nước mắm",
+      "expected_description_prefix": "Sauce, fish, ready-to-serve",
+      "groups": [],
+      "unknown_for": [
+        "type2_diabetes",
+        "gout"
+      ],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 168878,
+      "name": "Cơm trắng",
+      "expected_description_prefix": "Rice, white, long-grain, regular, enriched, cooked",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 171477,
+      "name": "Ức gà chín",
+      "expected_description_prefix": "Chicken, broilers or fryers, breast, meat only, cooked, roasted",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 171077,
+      "name": "Ức gà sống",
+      "expected_description_prefix": "Chicken, broiler or fryers, breast, skinless, boneless, meat only, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 167902,
+      "name": "Thịt heo xay",
+      "expected_description_prefix": "Pork, fresh, ground, raw",
+      "groups": [
+        "red_meat"
+      ],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 172475,
+      "name": "Đậu phụ",
+      "expected_description_prefix": "Tofu, raw, firm, prepared with calcium sulfate",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 168462,
+      "name": "Cải bó xôi",
+      "expected_description_prefix": "Spinach, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 169975,
+      "name": "Bắp cải",
+      "expected_description_prefix": "Cabbage, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 170457,
+      "name": "Cà chua",
+      "expected_description_prefix": "Tomatoes, red, ripe, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 170393,
+      "name": "Cà rốt",
+      "expected_description_prefix": "Carrots, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 170000,
+      "name": "Hành tây",
+      "expected_description_prefix": "Onions, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 169230,
+      "name": "Tỏi",
+      "expected_description_prefix": "Garlic, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 175176,
+      "name": "Cá rô phi",
+      "expected_description_prefix": "Fish, tilapia, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 175179,
+      "name": "Tôm",
+      "expected_description_prefix": "Crustaceans, shrimp, raw",
+      "groups": [
+        "selected_seafood"
+      ],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 174277,
+      "name": "Nước tương",
+      "expected_description_prefix": "Soy sauce made from soy and wheat (shoyu)",
+      "groups": [],
+      "unknown_for": [
+        "type2_diabetes",
+        "gout"
+      ],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 171411,
+      "name": "Dầu đậu nành",
+      "expected_description_prefix": "Oil, soybean, salad or cooking",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 173468,
+      "name": "Muối ăn",
+      "expected_description_prefix": "Salt, table",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 169655,
+      "name": "Đường cát",
+      "expected_description_prefix": "Sugars, granulated",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 168914,
+      "name": "Bánh phở/bún chín",
+      "expected_description_prefix": "Rice noodles, cooked",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 174924,
+      "name": "Bánh mì trắng",
+      "expected_description_prefix": "Bread, white, commercially prepared",
+      "groups": [],
+      "unknown_for": [
+        "type2_diabetes",
+        "gout"
+      ],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 173944,
+      "name": "Chuối",
+      "expected_description_prefix": "Bananas, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 169251,
+      "name": "Nấm mỡ trắng",
+      "expected_description_prefix": "Mushrooms, white, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 168409,
+      "name": "Dưa leo",
+      "expected_description_prefix": "Cucumber, with peel, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 169957,
+      "name": "Giá đỗ",
+      "expected_description_prefix": "Mung beans, mature seeds, sprouted, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 170005,
+      "name": "Hành lá",
+      "expected_description_prefix": "Onions, spring or scallions",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 170931,
+      "name": "Tiêu đen",
+      "expected_description_prefix": "Spices, pepper, black",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 169997,
+      "name": "Ngò rí",
+      "expected_description_prefix": "Coriander (cilantro) leaves, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 170390,
+      "name": "Cải thìa",
+      "expected_description_prefix": "Cabbage, chinese (pak-choi), raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 168573,
+      "name": "Sả",
+      "expected_description_prefix": "Lemon grass (citronella), raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 172430,
+      "name": "Đậu phộng",
+      "expected_description_prefix": "Peanuts, all types, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 169705,
+      "name": "Yến mạch",
+      "expected_description_prefix": "Oats",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 171267,
+      "name": "Sữa tươi ít béo",
+      "expected_description_prefix": "Milk, reduced fat, fluid, 2% milkfat, with added vitamin A",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 170886,
+      "name": "Sữa chua không đường",
+      "expected_description_prefix": "Yogurt, plain, low fat",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 169231,
+      "name": "Gừng",
+      "expected_description_prefix": "Ginger root, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 168156,
+      "name": "Nước cốt chanh",
+      "expected_description_prefix": "Lime juice, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 175165,
+      "name": "Cá trê/cá da trơn",
+      "expected_description_prefix": "Fish, catfish, channel, farmed, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 170106,
+      "name": "Ớt đỏ",
+      "expected_description_prefix": "Peppers, hot chili, red, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 173043,
+      "name": "Trái tầm bóp",
+      "expected_description_prefix": "Groundcherries, (cape-gooseberries or poha), raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 168019,
+      "name": "Bạch tuộc",
+      "expected_description_prefix": "Octopus (Alaska Native)",
+      "groups": [],
+      "unknown_for": [
+        "gout"
+      ],
+      "basis": "Danh mục nguyên liệu mô phỏng và mô tả FDC; chỉ loại các nhóm có tên trong chính sách. Sản phẩm chế biến thiếu thành phần giữ trạng thái chưa phân loại."
+    },
+    {
+      "fdc_id": 174852,
+      "name": "Nước ngọt cola",
+      "expected_description_prefix": "Beverages, carbonated, cola, regular",
+      "groups": [
+        "sweet_drinks"
+      ],
+      "unknown_for": [],
+      "basis": "Nhận diện nguyên liệu qua mô tả FDC; nhóm thực phẩm đối chiếu ADA/NIAMS. Đây là danh mục cho mô phỏng."
+    },
+    {
+      "fdc_id": 169659,
+      "name": "Siro ngô giàu fructose",
+      "expected_description_prefix": "Syrups, corn, high-fructose",
+      "groups": [
+        "hfcs"
+      ],
+      "unknown_for": [],
+      "basis": "Nhận diện nguyên liệu qua mô tả FDC; nhóm thực phẩm đối chiếu ADA/NIAMS. Đây là danh mục cho mô phỏng."
+    },
+    {
+      "fdc_id": 171906,
+      "name": "Bia",
+      "expected_description_prefix": "Alcoholic beverages, beer, higher alcohol",
+      "groups": [
+        "alcohol"
+      ],
+      "unknown_for": [],
+      "basis": "Nhận diện nguyên liệu qua mô tả FDC; nhóm thực phẩm đối chiếu ADA/NIAMS. Đây là danh mục cho mô phỏng."
+    },
+    {
+      "fdc_id": 168625,
+      "name": "Tim bò",
+      "expected_description_prefix": "Beef, variety meats and by-products, heart, raw",
+      "groups": [
+        "offal",
+        "red_meat"
+      ],
+      "unknown_for": [],
+      "basis": "Nhận diện nguyên liệu qua mô tả FDC; nhóm thực phẩm đối chiếu ADA/NIAMS. Đây là danh mục cho mô phỏng."
+    },
+    {
+      "fdc_id": 175139,
+      "name": "Cá mòi",
+      "expected_description_prefix": "Fish, sardine, Atlantic, canned in oil, drained solids with bone",
+      "groups": [
+        "selected_seafood"
+      ],
+      "unknown_for": [],
+      "basis": "Nhận diện nguyên liệu qua mô tả FDC; nhóm thực phẩm đối chiếu ADA/NIAMS. Đây là danh mục cho mô phỏng."
+    },
+    {
+      "fdc_id": 169044,
+      "name": "Đồ uống nước cam",
+      "expected_description_prefix": "Beverages, Orange juice drink",
+      "groups": [
+        "fruit_juice_drinks",
+        "sweet_drinks"
+      ],
+      "unknown_for": [],
+      "basis": "Nhận diện nguyên liệu qua mô tả FDC; nhóm thực phẩm đối chiếu ADA/NIAMS. Đây là danh mục cho mô phỏng."
+    },
+    {
+      "fdc_id": 169704,
+      "name": "Cơm gạo lứt",
+      "expected_description_prefix": "Rice, brown, long-grain, cooked (Includes foods for USDA's Food Distribution Program)",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Khoa Dứa cho phép dùng trong mô phỏng; đối chiếu đúng định danh USDA theo các nhóm loại trừ hiện có. Không có ngưỡng purin mg."
+    },
+    {
+      "fdc_id": 174257,
+      "name": "Đậu xanh chín",
+      "expected_description_prefix": "Mung beans, mature seeds, cooked, boiled, without salt",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Khoa Dứa cho phép dùng trong mô phỏng; đối chiếu đúng định danh USDA theo các nhóm loại trừ hiện có. Không có ngưỡng purin mg."
+    },
+    {
+      "fdc_id": 168484,
+      "name": "Khoai lang luộc",
+      "expected_description_prefix": "Sweet potato, cooked, boiled, without skin",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Khoa Dứa cho phép dùng trong mô phỏng; đối chiếu đúng định danh USDA theo các nhóm loại trừ hiện có. Không có ngưỡng purin mg."
+    },
+    {
+      "fdc_id": 169999,
+      "name": "Bắp luộc",
+      "expected_description_prefix": "Corn, sweet, yellow, cooked, boiled, drained, without salt",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Khoa Dứa cho phép dùng trong mô phỏng; đối chiếu đúng định danh USDA theo các nhóm loại trừ hiện có. Không có ngưỡng purin mg."
+    },
+    {
+      "fdc_id": 169961,
+      "name": "Đậu que",
+      "expected_description_prefix": "Beans, snap, green, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Khoa Dứa cho phép dùng trong mô phỏng; đối chiếu đúng định danh USDA theo các nhóm loại trừ hiện có. Không có ngưỡng purin mg."
+    },
+    {
+      "fdc_id": 168448,
+      "name": "Bí đỏ",
+      "expected_description_prefix": "Pumpkin, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Khoa Dứa cho phép dùng trong mô phỏng; đối chiếu đúng định danh USDA theo các nhóm loại trừ hiện có. Không có ngưỡng purin mg."
+    },
+    {
+      "fdc_id": 170069,
+      "name": "Bí xanh",
+      "expected_description_prefix": "Waxgourd, (chinese preserving melon), raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Khoa Dứa cho phép dùng trong mô phỏng; đối chiếu đúng định danh USDA theo các nhóm loại trừ hiện có. Không có ngưỡng purin mg."
+    },
+    {
+      "fdc_id": 169291,
+      "name": "Bí ngòi",
+      "expected_description_prefix": "Squash, summer, zucchini, includes skin, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Khoa Dứa cho phép dùng trong mô phỏng; đối chiếu đúng định danh USDA theo các nhóm loại trừ hiện có. Không có ngưỡng purin mg."
+    },
+    {
+      "fdc_id": 175167,
+      "name": "Cá hồi",
+      "expected_description_prefix": "Fish, salmon, Atlantic, farmed, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Khoa Dứa cho phép dùng trong mô phỏng; đối chiếu đúng định danh USDA theo các nhóm loại trừ hiện có. Không có ngưỡng purin mg. Cá hồi không thuộc danh sách selected_seafood trong phạm vi mô phỏng này; không phải kết luận cá hồi ít purin."
+    },
+    {
+      "fdc_id": 168249,
+      "name": "Thịt heo nạc",
+      "expected_description_prefix": "Pork, fresh, loin, tenderloin, separable lean only, raw",
+      "groups": [
+        "red_meat"
+      ],
+      "unknown_for": [],
+      "basis": "Khoa Dứa cho phép dùng trong mô phỏng; đối chiếu đúng định danh USDA theo các nhóm loại trừ hiện có. Không có ngưỡng purin mg. Thịt heo và bò thuộc nhóm thịt đỏ; tham chiếu NIAMS: https://www.niams.nih.gov/health-topics/gout/diagnosis-treatment-and-steps-to-take"
+    },
+    {
+      "fdc_id": 168609,
+      "name": "Thịt bò nạc",
+      "expected_description_prefix": "Beef, flank, steak, separable lean only, trimmed to 0\" fat, choice, raw",
+      "groups": [
+        "red_meat"
+      ],
+      "unknown_for": [],
+      "basis": "Khoa Dứa cho phép dùng trong mô phỏng; đối chiếu đúng định danh USDA theo các nhóm loại trừ hiện có. Không có ngưỡng purin mg. Thịt heo và bò thuộc nhóm thịt đỏ; tham chiếu NIAMS: https://www.niams.nih.gov/health-topics/gout/diagnosis-treatment-and-steps-to-take"
+    },
+    {
+      "fdc_id": 174258,
+      "name": "Miến đậu xanh khô",
+      "expected_description_prefix": "Noodles, chinese, cellophane or long rice (mung beans), dehydrated",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Khoa Dứa cho phép dùng trong mô phỏng; đối chiếu đúng định danh USDA theo các nhóm loại trừ hiện có. Không có ngưỡng purin mg."
+    },
+    {
+      "fdc_id": 169302,
+      "name": "Rau muống luộc",
+      "expected_description_prefix": "Water convolvulus, cooked, boiled, drained, without salt",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Khoa Dứa cho phép dùng trong mô phỏng; đối chiếu đúng định danh USDA theo các nhóm loại trừ hiện có. Không có ngưỡng purin mg."
+    },
+    {
+      "fdc_id": 169249,
+      "name": "Xà lách",
+      "expected_description_prefix": "Lettuce, green leaf, raw",
+      "groups": [],
+      "unknown_for": [],
+      "basis": "Khoa Dứa cho phép dùng trong mô phỏng; đối chiếu đúng định danh USDA theo các nhóm loại trừ hiện có. Không có ngưỡng purin mg."
+    }
+  ]
+}

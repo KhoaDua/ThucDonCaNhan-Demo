@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Quản trị dữ liệu</h1>
+<p class="muted">Khu vực tách khỏi luồng người dùng. Dữ liệu mới nhập ở trạng thái chờ duyệt; chỉ phiên bản đã duyệt được dùng lập thực đơn.</p>
+{% if message %}<div class="note">{{ message }}</div>{% endif %}
+{% if report %}
+<div class="note {{ 'bad' if report.errors }}">
+  <b>Báo cáo:</b> trạng thái {{ report.status }}
+  {% if report.accepted %} · nhận {{ report.accepted|length }}{% endif %}{% if report.unchanged %} · không đổi {{ report.unchanged|length }}{% endif %}{% if report.rejected %} · từ chối {{ report.rejected|length }}{% endif %}
+  {% if report.errors %}<table><thead><tr><th>Tệp</th><th>Dòng</th><th>Trường</th><th>Lỗi</th></tr></thead><tbody>
+  {% for e in report.errors[:100] %}<tr><td>{{ e.file }}</td><td>{{ e.line }}</td><td>{{ e.field }}</td><td>{{ e.message }}</td></tr>{% endfor %}</tbody></table>{% endif %}
+  {% if report.warnings %}<ul>{% for w in report.warnings[:30] %}<li>{{ w }}</li>{% endfor %}</ul>{% endif %}
+</div>{% endif %}
+
+<section class="cards">
+<div class="card"><h3>USDA</h3><p>Bản đang dùng: <code>{{ active_release or 'chưa có' }}</code></p>
+<p>Nhập bằng lệnh (tệp lớn):<br><code>python -m app.cli import-usda --source "...csv_2018-04"</code></p></div>
+<div class="card"><h3>Công thức</h3>
+<form method="post" action="/admin/recipes" enctype="multipart/form-data">
+<label>recipes.csv <input type="file" name="recipes" accept=".csv" required></label>
+<label>recipe_ingredients.csv <input type="file" name="ingredients" accept=".csv" required></label>
+<label>Bộ dữ liệu <select name="dataset"><option value="operational">operational (vận hành)</option><option value="demo">demo</option></select></label>
+<button>Nhập và kiểm tra</button></form></div>
+<div class="card"><h3>Giá và quy cách</h3>
+<form method="post" action="/admin/prices" enctype="multipart/form-data"><input type="file" name="file" accept=".csv" required>
+<select name="dataset"><option value="operational">operational</option><option value="demo">demo</option></select><button>Nhập</button></form>
+<h3>Danh mục nguyên liệu</h3>
+<form method="post" action="/admin/ingredients" enctype="multipart/form-data"><input type="file" name="file" accept=".csv" required>
+<select name="dataset"><option value="operational">operational</option><option value="demo">demo</option></select><button>Nhập</button></form>
+<h3>Dữ liệu demo</h3><form method="post" action="/admin/demo"><button class="secondary">Nạp bộ demo (nhãn demo)</button></form></div>
+</section>
+
+<h2>Công thức</h2>
+<table><thead><tr><th>Bộ</th><th>Mã</th><th>Phiên bản</th><th>Tên</th><th>Trạng thái</th><th>Đang dùng</th><th></th></tr></thead><tbody>
+{% for r in recipes %}<tr><td>{{ r.dataset }}</td><td>{{ r.recipe_id }}</td><td>{{ r.version }}</td><td>{{ r.name_vi }}</td><td>{{ r.status }}</td><td>{{ 'v' ~ r.active_version if r.active_version }}</td>
+<td>{% if r.status == 'pending_review' %}<form method="post" action="/admin/approve" class="inline"><input type="hidden" name="recipe_id" value="{{ r.recipe_id }}"><input type="hidden" name="version" value="{{ r.version }}">
+<button name="action" value="approve">Duyệt</button><button name="action" value="reject" class="secondary">Từ chối</button></form>{% endif %}</td></tr>{% endfor %}
+</tbody></table>
+
+<h2>Nhật ký nhập</h2>
+<ul>{% for l in logs %}<li><a href="/admin?log={{ l.id }}">#{{ l.id }}</a> {{ l.kind }} ({{ l.dataset }}) – {{ l.status }} – {{ l.created_at }}</li>{% endfor %}</ul>
+{% endblock %}

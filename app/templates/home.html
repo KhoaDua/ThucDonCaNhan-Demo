@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Bản dùng thử thực đơn cá nhân</h1>
+<p>Dùng hồ sơ giả định để thử lập thực đơn.</p>
+<p>Lập thực đơn cho <b>một cá nhân</b>, kiểm tra độc lập mọi điều kiện bắt buộc trước khi công nhận, kèm danh sách mua sắm.</p>
+
+<section class="cards">
+  <div class="card">
+    <h3>Dữ liệu</h3>
+    <ul>
+      <li>USDA: {% if usda %}{{ usda.food_count|num(0) }} thực phẩm, {{ usda.nutrient_row_count|num(0) }} dòng dinh dưỡng{% else %}<span class="bad">chưa nhập</span>{% endif %}</li>
+      <li>Công thức đã duyệt ({{ settings.dataset }}): {{ active_recipes }}</li>
+      {% for ds, n in recipe_counts.items() %}<li>Bộ <code>{{ ds }}</code>: {{ n }} công thức hoạt động</li>{% endfor %}
+      <li>Bộ quy tắc dinh dưỡng: {% for r in rule_sets %}<code>{{ r.rule_set }} v{{ r.version }}</code>{% if r.label=='demo' %} (giả lập){% endif %} {% else %}chưa có{% endfor %}</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Hồ sơ</h3>
+    {% if can_generate %}<p>Đã xác nhận phiên bản {{ profile.version }} ({{ profile.data.days }} ngày, {{ profile.data.meals|length }} bữa/ngày).</p>
+    <form method="post" action="/plans"><input type="hidden" name="request_token" value="{{ token }}"><input type="hidden" name="profile_version" value="{{ profile.version }}"><button>Lập thực đơn</button></form>
+    {% elif profile %}<p>Hồ sơ phiên bản {{ profile.version }} đã lưu, cần xem lại trước khi lập thực đơn.</p><a href="/profile/confirm?v={{ profile.version }}">Xem hồ sơ đã lưu</a>
+    {% else %}<p>Chưa có hồ sơ xác nhận.</p>{% endif %}
+    <p><a href="/profile">Điền / sửa checklist →</a></p>
+  </div>
+  <div class="card">
+    <h3>Thực đơn gần đây</h3>
+    <ul>{% for p in plans %}<li><a href="/plans/{{ p.plan_id }}">Thực đơn #{{ p.plan_id }}</a> – phiên bản {{ p.current_version }} ({{ p.dataset }})</li>{% else %}<li>Chưa có</li>{% endfor %}</ul>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Truy xuất {{ metric|metric }} – ngày {{ day }}</h1>
+<p>Thực đơn #{{ plan.plan_id }} phiên bản {{ plan.version }} · USDA {{ plan.report.release_id }}</p>
+<p>Tổng ngày: <b>{{ total|num(3) }} {{ metric|unit }}</b>{% for r in results %} · {{ r.label }}: <b>{{ {'pass':'đạt','fail':'vi phạm','missing':'thiếu dữ liệu'}[r.status] }}</b>{% endfor %}</p>
+<p class="muted">Công thức: gam thực tế = gam trong công thức × khẩu phần ÷ khẩu phần gốc; lượng chất = gam thực tế ÷ 100 × hàm lượng/100 g.</p>
+<table><thead><tr><th>Bữa</th><th>Món (mã, phiên bản)</th><th>Khẩu phần / gốc</th><th>Dòng</th><th>Nguyên liệu</th><th>fdc_id · mô tả USDA</th><th>Gam công thức</th><th>Gam thực tế</th><th>/100 g</th><th>Lượng</th><th>food_nutrient.id</th></tr></thead><tbody>
+{% for r in rows %}<tr class="{{ 'missing' if r.amount is none }}"><td>{{ r.meal|meal }}</td><td>{{ r.dish }} ({{ r.recipe_id }} v{{ r.version }})</td><td>{{ r.servings|num }} / {{ r.base_servings|num }}</td><td>{{ r.line_no }}</td>
+<td>{{ r.ingredient }}</td><td>{{ r.fdc_id }} · {{ r.usda_description }}</td><td class="n">{{ r.quantity_g_recipe|num(3) }}</td><td class="n">{{ r.grams|num(3) }}</td>
+<td class="n">{{ r.per_100g|num(3) }}</td><td class="n">{{ r.amount|num(4) }}</td><td>{{ r.food_nutrient_id or 'không có dòng (chưa biết)' }}</td></tr>{% endfor %}
+</tbody></table>
+<p><a href="/plans/{{ plan.plan_id }}?day={{ day }}">← Về thực đơn</a></p>
+{% endblock %}

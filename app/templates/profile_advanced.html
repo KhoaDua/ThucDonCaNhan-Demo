@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% from "profile_fields.html" import v, err, chk with context %}
+{% block content %}
+<h1>Nhập hồ sơ nâng cao</h1><p><a href="/profile{% if v('base_version')|trim %}?v={{ v('base_version') }}{% endif %}">Về checklist ngắn</a></p>
+{% if message %}<div class="note {% if errors %}warn{% endif %}">{{ message }}</div>{% endif %}
+{% if ai %}
+<div class="note ai">
+  <b>Kết quả diễn giải ({{ ai.provider or 'AI' }}):</b> {% if ai.ok %}đã điền {{ ai.ai_fields|length }} trường: {{ ai.ai_fields|join(', ') }}.{% endif %}
+  {% if ai.note %}<br><i>{{ ai.note }}</i>{% endif %}
+  {% if ai.ambiguous %}<ul>{% for a in ai.ambiguous %}<li>Cần làm rõ – <b>{{ a.field }}</b>: {{ a.question }}</li>{% endfor %}</ul>{% endif %}
+  {% if ai.tool_calls %}<details><summary>Tra cứu AI đã gọi ({{ ai.tool_calls|length }})</summary><ul>{% for c in ai.tool_calls %}<li>{{ c.tool }} {{ c.args }} – {{ 'ok' if c.ok else c.error }}</li>{% endfor %}</ul></details>{% endif %}
+</div>
+{% endif %}
+
+<form method="post" action="/profile" class="profile" novalidate><input type="hidden" name="base_version" value="{{ v('base_version') }}">{{ err('goals') }}{{ err('health_conditions') }}
+<fieldset class="ai-box">
+  <legend>Nhập nhanh bằng câu tự do (AI tạo bản nháp)</legend>
+  <textarea name="free_text" rows="2" placeholder="Ví dụ: Lập thực đơn 3 ngày, bữa sáng và tối, 1,5 khẩu phần, tránh tôm, natri dưới 2000 mg, ngân sách tối đa 500k theo tiền mua, nấu nhanh">{{ v('free_text') }}</textarea>
+  {{ err('free_text') }}
+  <button name="action" value="interpret" class="secondary">Diễn giải thành bản nháp</button>
+  <small>Kết quả chỉ là bản nháp để bạn xem và sửa trong checklist bên dưới. Nếu AI lỗi, thông tin đã nhập vẫn được giữ.</small>
+  {% if ai and ai.ok %}<input type="hidden" name="from_ai" value="1">{% endif %}
+</fieldset>
+
+<fieldset><legend>1. Kỳ lập thực đơn</legend>
+  <label>Số ngày <input name="days" value="{{ v('days') }}" inputmode="numeric" class="{{ 'invalid' if errors.days }}"></label>{{ err('days') }}
+  <div class="row">Các bữa:
+    {% for m in meal_order %}<label class="inline"><input type="checkbox" name="meals" value="{{ m }}" {% if m in (form.get('meals') or []) %}checked{% endif %}> {{ m|meal }}</label>{% endfor %}
+  </div>{{ err('meals') }}
+  <label>Số món mỗi bữa <input name="dishes_per_meal" value="{{ v('dishes_per_meal') }}" class="{{ 'invalid' if errors.dishes_per_meal }}"></label>{{ err('dishes_per_meal') }}
+  <label>Các mức khẩu phần cho phép (một người; phân cách bằng ;) <input name="serving_levels" value="{{ v('serving_levels') }}" class="{{ 'invalid' if errors.serving_levels }}"></label>{{ err('serving_levels') }}
+  <small>Khẩu phần là lượng bạn ăn, tách biệt với số khẩu phần gốc của công thức.</small>
+</fieldset>
+
+<fieldset><legend>2. Mục tiêu và giới hạn dinh dưỡng (điều kiện bắt buộc)</legend>
+  <label>Bộ quy tắc Calories-dinh dưỡng
+    <select name="rule_set"><option value="">— Không dùng —</option>
+      {% for r in rule_sets %}<option value="{{ r.rule_set }}" {% if v('rule_set') == r.rule_set %}selected{% endif %}>{{ r.rule_set }} v{{ r.version }}{% if r.label == 'demo' %} – GIẢ LẬP, chỉ để kiểm thử{% endif %}</option>{% endfor %}
+    </select></label>
+  <label class="inline"><input type="checkbox" name="rule_set_confirmed" value="1" {{ chk('rule_set_confirmed') }}> Tôi xác nhận áp dụng bộ quy tắc này cho hồ sơ của mình</label>{{ err('rule_set') }}
+  <table class="limits"><thead><tr><th>Chỉ tiêu</th><th>So sánh</th><th>Giá trị</th><th>Đơn vị</th><th>Kỳ</th><th>Loại</th><th>Nguồn</th><th>Xác nhận</th></tr></thead>
+  <tbody>
+  {% for i in limit_rows %}
+  <tr class="{{ 'invalid' if errors.get('limit_' ~ i) }}">
+    <td><select name="limit_metric_{{ i }}"><option value=""></option>{% for k, m in METRICS.items() %}<option value="{{ k }}" {% if v('limit_metric_' ~ i) == k %}selected{% endif %}>{{ m[2] }}</option>{% endfor %}</select></td>
+    <td><select name="limit_op_{{ i }}">{% for o in ['<=','<','>=','>'] %}<option value="{{ o }}" {% if v('limit_op_' ~ i) == o %}selected{% endif %}>{{ o|op }}</option>{% endfor %}</select></td>
+    <td><input name="limit_value_{{ i }}" value="{{ v('limit_value_' ~ i) }}" size="7"></td>
+    <td><select name="limit_unit_{{ i }}">{% for u in ['mg','g','kcal','kJ'] %}<option {% if v('limit_unit_' ~ i) == u %}selected{% endif %}>{{ u }}</option>{% endfor %}</select></td>
+    <td><select name="limit_scope_{{ i }}">{% for s, t in SCOPES.items() %}<option value="{{ s }}" {% if (v('limit_scope_' ~ i) or 'day') == s %}selected{% endif %}>{{ t }}</option>{% endfor %}</select></td>
+    <td><select name="limit_category_{{ i }}">{% for c, t in CATEGORIES.items() %}<option value="{{ c }}" {% if v('limit_category_' ~ i) == c %}selected{% endif %}>{{ t }}</option>{% endfor %}</select></td>
+    <td><input name="limit_source_{{ i }}" value="{{ v('limit_source_' ~ i) }}" placeholder="vd: bác sĩ, 11/2026" size="14"></td>
+    <td><input type="checkbox" name="limit_confirmed_{{ i }}" value="1" {{ chk('limit_confirmed_' ~ i) }}></td>
+  </tr>
+  {% if errors.get('limit_' ~ i) %}<tr><td colspan="8">{{ err('limit_' ~ i) }}</td></tr>{% endif %}
+  {% endfor %}
+  </tbody></table>
+  <small>Hệ thống không tự suy giới hạn điều trị từ USDA hay AI: chỉ áp dụng giá trị bạn xác nhận kèm nguồn, hoặc bộ quy tắc đã xác nhận.</small>
+</fieldset>
+
+<fieldset><legend>3. Nguyên liệu cần tránh (điều kiện bắt buộc)</legend>
+  <label>Danh sách tránh (phân cách bằng dấu phẩy) <input name="avoid" value="{{ v('avoid') }}"></label>
+  {% if avoid_vocab %}<div class="tags">Nhóm đã rà soát: {% for t in avoid_vocab %}<label class="inline"><input type="checkbox" name="avoid_tag" value="{{ t }}" {% if t in (form.get('avoid_tag') or []) %}checked{% endif %}> {{ t }}</label>{% endfor %}</div>{% endif %}
+  <small>Nguyên liệu chưa được rà soát với danh sách tránh sẽ bị loại khỏi ứng viên (không đủ căn cứ kết luận).</small>
+</fieldset>
+
+{% include "profile_options.html" %}
+<button name="action" value="save">Lưu và xem ràng buộc</button>
+</form>
+{% endblock %}
+
+

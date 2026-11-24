@@ -1,0 +1,7 @@
+{% macro icon(name, class_name='') -%}
+<svg{% if class_name %} class="{{ class_name }}"{% endif %} aria-hidden="true"><use href="#{{ name }}"></use></svg>
+{%- endmacro %}
+
+{% macro section_title(name, title) -%}
+<span class="section-icon">{{ icon(name) }}</span><span>{{ title }}</span>
+{%- endmacro %}

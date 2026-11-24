@@ -1,0 +1,108 @@
+{% extends "menu_base.html" %}
+{% from "profile_ui_macros.html" import icon %}
+{% set buy = shop["items"]|selectattr("buy_g", "gt", 0)|list %}
+{% set stocked = shop["items"]|rejectattr("buy_g", "gt", 0)|list %}
+
+{% block title %}Danh sách mua sắm · Thực đơn cá nhân{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="/static/checklist/tokens.css?v=checklist-a-1">
+<link rel="stylesheet" href="/static/checklist/components.css?v=checklist-a-1">
+<link rel="stylesheet" href="/static/shopping/shopping.css?v=shopping-gon-1">
+{% endblock %}
+{% block body_attributes %} class="shopping-page" data-shopping-version="{{ plan.plan_id }}:{{ plan.version }}"{% endblock %}
+{% block page_scripts %}<script src="/static/shopping/shopping.js?v=shopping-a-1" defer></script>{% endblock %}
+
+{% block content %}
+  <section class="shopping-heading">
+    <div>
+      <p class="eyebrow">{{ icon('calendar') }} Thực đơn #{{ plan.plan_id }} · Phiên bản {{ plan.version }}</p>
+      <h1>Danh sách mua sắm</h1>
+      <a class="button secondary shopping-back" href="/plans/{{ plan.plan_id }}{% if plan.version != plan.current_version %}?version={{ plan.version }}{% endif %}">{{ icon('plate') }}Về thực đơn</a>
+    </div>
+    <figure class="shopping-art" data-reveal aria-hidden="true">
+      <img src="/static/menu/nutrition-review.svg" alt="" width="320" height="220">
+    </figure>
+  </section>
+  {% if plan.version != plan.current_version %}
+  <div class="shopping-version" role="status">
+    Bạn đang xem danh sách của phiên bản {{ plan.version }}.
+    <a href="/plans/{{ plan.plan_id }}/shopping">Xem phiên bản {{ plan.current_version }}</a>
+  </div>
+  {% endif %}
+
+  <div class="shopping-layout">
+    <aside class="progress-card" aria-labelledby="progress-title">
+      <div class="progress-title">
+        <span class="tile-icon">{{ icon('basket') }}</span>
+        <h2 id="progress-title">Tiến độ mua sắm</h2>
+      </div>
+      <p class="progress-count"><strong data-checked>0</strong> / {{ buy|length }} <span>đã mua</span></p>
+      <progress value="0" max="{{ buy|length or 1 }}" aria-label="Tiến độ mua sắm"></progress>
+      <div class="progress-caption" role="status" data-progress-status>
+        {% if buy %}Còn {{ buy|length }} nguyên liệu cần mua{% else %}Đã có đủ nguyên liệu{% endif %}
+      </div>
+      <p class="session-note" data-session-note>Lưu trong thẻ này.</p>
+    </aside>
+
+    <div class="shopping-lists">
+      <section class="list-card" aria-labelledby="buy-title">
+        <div class="list-heading">
+          <h2 id="buy-title">Nguyên liệu cần mua <span class="count">{{ buy|length }}</span></h2>
+          {% if buy %}
+          <div class="filters" role="group" aria-label="Lọc danh sách mua sắm" hidden>
+            <button type="button" data-filter="all" aria-pressed="true">Tất cả</button>
+            <button type="button" data-filter="pending" aria-pressed="false">Chưa mua</button>
+            <button type="button" data-filter="done" aria-pressed="false">Đã mua</button>
+          </div>
+          {% endif %}
+        </div>
+        {% if buy %}
+        <ul class="ingredient-list">
+          {% for item in buy %}
+          <li class="ingredient" data-item>
+            <div class="ingredient-main">
+              <h3 id="ingredient-{{ loop.index }}">{{ item.name }}</h3>
+              <dl class="quantities">
+                <div><dt>Cần dùng</dt><dd data-quantity="need_g">{{ item.need_g|num(2) }} g</dd></div>
+                <div><dt>Đang có</dt><dd data-quantity="inventory_g">{{ item.inventory_g|num(2) }} g</dd></div>
+              </dl>
+            </div>
+            <div class="purchase-quantity">
+              <span>Cần mua</span><strong data-quantity="buy_g">{{ item.buy_g|num(2) }} g</strong>
+            </div>
+            <label class="purchase-check">
+              <input type="checkbox" aria-labelledby="check-{{ loop.index }} ingredient-{{ loop.index }}">
+              <span id="check-{{ loop.index }}">Đã mua</span>
+            </label>
+          </li>
+          {% endfor %}
+        </ul>
+        <p class="empty-state" data-empty-filter role="status" hidden></p>
+        {% else %}
+        <p class="empty-state">Đã có đủ nguyên liệu cho thực đơn này.</p>
+        {% endif %}
+      </section>
+
+      {% if stocked %}
+      <section class="list-card stocked-card" aria-labelledby="stocked-title">
+        <div class="list-heading"><h2 id="stocked-title">Đã có đủ <span class="count">{{ stocked|length }}</span></h2></div>
+        <ul class="ingredient-list">
+          {% for item in stocked %}
+          <li class="ingredient" data-item>
+            <div class="ingredient-main">
+              <h3>{{ item.name }}</h3>
+              <dl class="quantities">
+                <div><dt>Cần dùng</dt><dd data-quantity="need_g">{{ item.need_g|num(2) }} g</dd></div>
+                <div><dt>Đang có</dt><dd data-quantity="inventory_g">{{ item.inventory_g|num(2) }} g</dd></div>
+              </dl>
+            </div>
+            <div class="purchase-quantity"><span>Cần mua</span><strong data-quantity="buy_g">{{ item.buy_g|num(2) }} g</strong></div>
+          </li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+      <noscript><p>Bật JavaScript để lọc và lưu dấu tích trong phiên xem này.</p></noscript>
+    </div>
+  </div>
+{% endblock %}
