@@ -16,6 +16,7 @@ from public_storage import demo_workspace
 
 app = FastAPI(title="Thực đơn dùng thử", docs_url=None, redoc_url=None, openapi_url=None)
 app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
+DEFAULT_SERVING_LEVELS = "1; 1,5; 2; 2,5"
 settings = get_settings(
     db_path=Path(":memory:"), data_mode="demo", ai_provider="mock", solver="builtin",
     checklist_energy_rule_set="", checklist_sodium_rule_set="",
@@ -41,10 +42,12 @@ def health():
 @app.get("/profile", response_class=HTMLResponse)
 def profile():
     with demo_workspace() as conn:
-        return _respond(views.profile_form(conn, settings))
+        page = views.profile_form(conn, settings)
+        page.ctx["form"]["serving_levels"] = DEFAULT_SERVING_LEVELS
+        return _respond(page)
 
 
-def _submit(form, action):
+def _submit(form, action, adjust_servings=False):
     # Tạo lại nháp từ biểu mẫu và kiểm tra các điều kiện trên từng yêu cầu.
     form.pop("base_version", None)
     form["action"] = ["checklist"]
@@ -58,7 +61,7 @@ def _submit(form, action):
         if action == "edit":
             page = views.profile_form(conn, settings, version)
             page.ctx["form"]["base_version"] = ""
-            return _respond(page)
+            return _respond(page, adjust_servings=adjust_servings)
 
         review = views.profile_confirm_page(conn, settings, version)
         if action == "review" or review.ctx["health_review"]["state"] != "ready":
@@ -86,7 +89,7 @@ def _submit(form, action):
         return _respond(page)
 
 
-async def _submit_form(request, action):
+async def _submit_form(request, action, adjust_servings=False):
     scheme = "https" if os.environ.get("VERCEL") else request.url.scheme
     expected_origin = f"{scheme}://{request.url.netloc}"
     origin = request.headers.get("origin")
@@ -95,7 +98,7 @@ async def _submit_form(request, action):
     async with request.form() as data:
         form = {key: [value for value in data.getlist(key) if isinstance(value, str)]
                 for key in data}
-    return await run_in_threadpool(_submit, form, action)
+    return await run_in_threadpool(_submit, form, action, adjust_servings)
 
 
 @app.post("/profile")
@@ -104,8 +107,8 @@ async def review_profile(request: Request):
 
 
 @app.post("/profile/edit")
-async def edit_profile(request: Request):
-    return await _submit_form(request, "edit")
+async def edit_profile(request: Request, adjust_servings: bool = False):
+    return await _submit_form(request, "edit", adjust_servings)
 
 
 @app.post("/profile/confirm")

@@ -213,6 +213,8 @@ def generate_plan(conn, settings: Settings, request_token: str | None = None, *,
                                                "objective": solve.objective, "rejected_by_checker": solve.rejected_by_checker,
                                                "binding": solve.extra.get("binding")},
               "profile_version": pv["version"], "config": settings.public_dict()}
+    if solve and "energy_bound" in solve.extra:
+        detail["energy_bound"] = solve.extra["energy_bound"]
     if r["status"] == "validated":
         report = r["report"]
         context = _context(r["catalog"], pv, constraints, prefs, report, settings, detail)

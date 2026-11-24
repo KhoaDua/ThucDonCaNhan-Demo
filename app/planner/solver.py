@@ -114,6 +114,13 @@ def solve_builtin(slots: list[dict], options: list[list[dict]], cons: list[Linea
                 res.elapsed_s = time.monotonic() - t0
                 res.note = f"Cận cho thấy điều kiện {c.cid} không thể đạt ở nhóm {key}"
                 res.extra["binding"] = [c.cid]
+                if c.cid.startswith("body_energy:") and c.scope in ("day", "meal"):
+                    day, meal = key if c.scope == "meal" else (key, None)
+                    minimum = c.op in (">=", ">")
+                    res.extra["energy_bound"] = {
+                        "day": day, "meal": meal, "minimum": minimum,
+                        "target": c.bound, "candidate_limit": hi if minimum else lo,
+                    }
                 return res
 
     min_score_suffix = [0.0] * (n + 1)

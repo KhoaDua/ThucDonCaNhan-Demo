@@ -159,12 +159,12 @@
   </div>
 </fieldset>
 
-<details class="profile-extra" {% if errors.keys()|select('in', ['dishes_per_meal', 'serving_levels', 'max_prep_minutes', 'budget_amount', 'budget_scope', 'budget_mode', 'inventory'])|list %}open{% endif %}>
+<details class="profile-extra" {% if adjust_servings or errors.keys()|select('in', ['dishes_per_meal', 'serving_levels', 'max_prep_minutes', 'budget_amount', 'budget_scope', 'budget_mode', 'inventory'])|list %}open{% endif %}>
   <summary><span class="details-title">{{ icon('sliders') }}<span>Khẩu phần, sở thích, ngân sách và tồn kho</span></span></summary>
   <fieldset>
     <legend>Khẩu phần</legend>
     <label>Số món mỗi bữa <input name="dishes_per_meal" value="{{ v('dishes_per_meal') }}" inputmode="numeric"></label>{{ err('dishes_per_meal') }}
-    <label>Các mức khẩu phần <input name="serving_levels" value="{{ v('serving_levels') }}" placeholder="Ví dụ: 1; 1,5"></label>{{ err('serving_levels') }}
+    <label for="serving-levels">Các mức khẩu phần <input id="serving-levels" name="serving_levels" value="{{ v('serving_levels') }}" placeholder="Ví dụ: 1; 1,5"{% if adjust_servings %} autofocus{% endif %}></label>{{ err('serving_levels') }}
   </fieldset>
   {% include "profile_options.html" %}
 </details>
@@ -179,7 +179,7 @@
 </aside>
 <div class="action-bar">
   <div class="shell action-bar-inner">
-    <div class="action-button-slot"><button type="submit" class="button">{{ icon('save') }}<span>Lưu và xem lại nhu cầu</span></button></div>
+    <div class="action-button-slot"><button type="submit" class="button">{{ icon('save') }}<span>Xem lại nhu cầu</span></button></div>
   </div>
 </div>
 </form>
