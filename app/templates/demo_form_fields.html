@@ -1,0 +1,5 @@
+{% for key, values in demo_form.items() %}
+  {% for value in values %}
+  <input type="hidden" name="{{ key }}" value="{{ value }}">
+  {% endfor %}
+{% endfor %}

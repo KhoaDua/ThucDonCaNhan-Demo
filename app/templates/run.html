@@ -19,8 +19,9 @@
 <td>{% for r in e.reasons %}{{ r.text }}: {{ r.detail }}{% if not loop.last %}; {% endif %}{% endfor %}</td></tr>{% endfor %}
 </tbody></table>{% endif %}
 {% if d.solver %}<p class="muted">Bộ giải {{ d.solver.name }}: {{ d.solver.status }}, {{ d.solver.nodes }} nút, {{ d.solver.elapsed_s }} giây.</p>{% endif %}
-{% if run.status in ('search_timeout',) and token %}
-<form method="post" action="/plans"><input type="hidden" name="request_token" value="{{ token }}"><input type="hidden" name="profile_version" value="{{ run.profile_version }}"><button>Thử lại</button></form>{% endif %}
-<p><a href="/profile">← Sửa hồ sơ</a></p>
+<form method="post" action="/profile/edit">
+{% include "demo_form_fields.html" %}
+<button type="submit" class="button secondary">Sửa câu trả lời</button>
+</form>
 </section>
 {% endblock %}

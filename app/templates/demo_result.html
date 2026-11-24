@@ -1,0 +1,89 @@
+{% extends "menu_base.html" %}
+{% from "profile_ui_macros.html" import icon %}
+{% set nutrients = ['energy_kcal','protein_g','fat_g','carb_g','saturated_fat_g','fiber_g','sodium_mg','sugar_g'] %}
+{% block content %}
+<section class="page-heading">
+  <div>
+    <h1>Thực đơn của bạn</h1>
+    <div class="heading-actions">
+      <a class="button" href="#shopping">{{ icon('basket') }}Danh sách mua sắm</a>
+      <a class="button secondary" href="/profile">{{ icon('sliders') }}Tạo thực đơn mới</a>
+    </div>
+  </div>
+  <figure class="hero-art" aria-hidden="true"><img src="/static/menu/nutrition-review.svg" width="320" height="220" alt=""></figure>
+</section>
+<section class="status-banner st-{{ plan.status }}" aria-label="Trạng thái thực đơn">
+  {{ icon('shield') }}<strong data-plan-status>{{ plan.status|status_text }}</strong>
+</section>
+<div class="day-toolbar"><nav class="days" aria-label="Chọn ngày">
+  {% for menu in plan_days %}<a href="#day-{{ menu.day }}">{{ icon('calendar') }}Ngày {{ menu.day }}</a>{% endfor %}
+</nav></div>
+{% for menu in plan_days %}
+<section id="day-{{ menu.day }}" aria-labelledby="day-title-{{ menu.day }}">
+  <h2 id="day-title-{{ menu.day }}">Ngày {{ menu.day }}</h2>
+  <div class="menu-grid">
+    <div class="meal-list">
+    {% for meal in menu.meals %}
+      <section class="meal-section">
+        <header class="meal-heading">
+          <span class="meal-icon {{ meal }}">{{ icon({'breakfast':'sunrise','lunch':'sun','dinner':'moon'}.get(meal,'plate')) }}</span>
+          <div><h3>{{ meal|meal }}</h3><span class="muted">{{ menu.meal_totals[meal].energy_kcal|num }} kcal</span></div>
+        </header>
+        {% for dish in menu.dishes if dish.meal == meal %}
+        <article class="dish-card">
+          <div class="dish-top">
+            <span class="dish-mark">{{ icon('plate') }}</span>
+            <div><h4>{{ dish.name }}</h4><p class="dish-meta">Khẩu phần <strong>{{ dish.servings|num }}</strong></p></div>
+          </div>
+          <dl class="dish-macros">
+          {% for metric in ['energy_kcal','protein_g','carb_g','fat_g'] %}
+            <div class="{{ 'energy' if metric=='energy_kcal' }}"><dt>{{ metric|metric }}</dt><dd>{{ dish.totals.get(metric)|num }} <small>{{ metric|unit }}</small></dd></div>
+          {% endfor %}
+          </dl>
+          <details class="nutrient-details">
+            <summary>Dinh dưỡng chi tiết</summary>
+            <dl class="extra-nutrients">
+            {% for metric in ['saturated_fat_g','fiber_g','sodium_mg','sugar_g'] %}
+              <div><dt>{{ metric|metric }}</dt><dd>{{ dish.totals.get(metric)|num }} {{ metric|unit }}</dd></div>
+            {% endfor %}
+            </dl>
+          </details>
+        </article>
+        {% endfor %}
+        <details class="meal-total">
+          <summary>Tổng dinh dưỡng {{ meal|meal|lower }}</summary>
+          <dl class="extra-nutrients">
+          {% for metric in nutrients %}
+            <div><dt>{{ metric|metric }}</dt><dd>{{ menu.meal_totals[meal].get(metric)|num }} {{ metric|unit }}</dd></div>
+          {% endfor %}
+          </dl>
+        </details>
+      </section>
+    {% endfor %}
+    </div>
+    <aside class="day-summary">
+      <section class="summary-card">
+        <h3 class="day-summary-title">Dinh dưỡng ngày {{ menu.day }}</h3>
+        <dl class="day-nutrients">
+        {% for metric in nutrients %}
+          <div><dt>{{ metric|metric }}</dt><dd>{{ menu.day_total.get(metric)|num }} <small>{{ metric|unit }}</small></dd></div>
+        {% endfor %}
+        </dl>
+      </section>
+    </aside>
+  </div>
+</section>
+{% endfor %}
+<section id="shopping" class="meal-section">
+  <h2>Danh sách mua sắm</h2>
+  {% set buy = shop["items"]|selectattr("buy_g", "gt", 0)|list %}
+  {% if buy %}
+  <table>
+    <thead><tr><th scope="col">Nguyên liệu</th><th scope="col">Cần mua</th></tr></thead>
+    <tbody>
+      {% for item in buy %}<tr><th scope="row">{{ item.name }}</th><td>{{ item.buy_g|num(2) }} g</td></tr>{% endfor %}
+    </tbody>
+  </table>
+  {% else %}<p>Đã có đủ nguyên liệu cho thực đơn này.</p>{% endif %}
+</section>
+{% endblock %}

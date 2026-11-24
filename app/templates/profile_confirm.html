@@ -21,7 +21,7 @@
 {% include "profile_ui_icons.html" %}
 <header class="review-header"><div class="shell header-inner">
 <a class="brand" href="/"><span class="brand-mark">{{ icon('leaf') }}</span><span>Thực đơn dùng thử</span></a>
-<nav aria-label="Điều hướng chính"><a href="/profile" aria-current="page">1. Hồ sơ</a><a href="/plans">2. Thực đơn</a>{% include "trial_logout.html" %}</nav>
+<nav aria-label="Điều hướng chính"><a href="/profile">Lập thực đơn</a></nav>
 </div></header>
 {% endblock %}
 {% block page_scripts %}<script src="/static/review/review-ui.js?v=review-a-1"></script>{% endblock %}
@@ -78,11 +78,10 @@
 </section></aside>
 </div>
 
-<form method="post" action="{{ '/profile/confirm' if pv.status != 'confirmed' or health_review.state != 'ready' else '/plans' }}" class="review-actions profile-actions">
-<input type="hidden" name="{{ 'v' if pv.status != 'confirmed' or health_review.state != 'ready' else 'profile_version' }}" value="{{ pv.version }}">
-<input type="hidden" name="request_token" value="{{ token }}">
+<form method="post" action="/profile/confirm" class="review-actions profile-actions">
+{% include "demo_form_fields.html" %}
 <div class="shell action-inner"><div class="action-buttons">
-{% if ready %}<a class="button secondary" href="/profile?v={{ pv.version }}">{{ icon('sliders') }}Sửa câu trả lời</a><button class="button" type="submit">{{ icon('plate') }}{{ 'Xác nhận và lập thực đơn' if pv.status=='draft' else 'Lập thực đơn' }}</button>
-{% else %}<button class="button secondary" type="submit">{{ icon('clock') }}Kiểm tra lại điều kiện</button><a class="button" href="/profile?v={{ pv.version }}">{{ icon('sliders') }}Bổ sung thông tin</a>{% endif %}
+  <button class="button {{ 'secondary' if ready }}" type="submit" formaction="/profile/edit">{{ icon('sliders') }}Sửa câu trả lời</button>
+  {% if ready %}<button class="button" type="submit">{{ icon('plate') }}Xác nhận và lập thực đơn</button>{% endif %}
 </div></div></form>
 {% endblock %}
