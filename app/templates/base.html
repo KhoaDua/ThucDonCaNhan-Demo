@@ -22,11 +22,6 @@
 <main{% block main_attributes %}{% endblock %}>
 {% block content %}{% endblock %}
 </main>
-<footer{% block footer_attributes %}{% endblock %}>
-  Dinh dưỡng: {% if usda %}{{ usda.label }} ({{ usda.release_id }}){% else %}<b>chưa nhập USDA</b>{% endif %}
-  · Bộ dữ liệu: {{ settings.dataset }} · AI: {{ ai_provider }}{% if ai_provider == 'mock' %} (giả lập){% endif %}
-  · Bộ giải: {{ settings.solver }}
-</footer>
 <script src="/static/app.js?v=checked-swaps-1"></script>
 <script src="/static/body.js?v=applied-energy-1"></script>
 <script src="/static/display.js?v=display-cleanup-1"></script>

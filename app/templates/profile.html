@@ -9,7 +9,6 @@
 {% endblock %}
 {% block body_attributes %} class="checklist-page"{% endblock %}
 {% block main_attributes %} class="shell" id="top"{% endblock %}
-{% block footer_attributes %} class="checklist-footer shell"{% endblock %}
 {% block header %}
 {% include "profile_ui_icons.html" %}
 <header class="checklist-header">
@@ -55,10 +54,9 @@
   <legend>{{ section_title('target', 'Bạn muốn ăn uống theo mục tiêu nào?') }}</legend>
   <div class="choice-list">
   {% for key, label in goals.items() %}
-    <label><input type="checkbox" name="goals" value="{{ key }}"{% if key == 'energy' %} aria-describedby="energy-goal-note"{% endif %} {% if key in (form.get('goals') or []) %}checked{% endif %}>{{ icon({'variety':'shuffle','energy':'bolt','less_salty':'salt'}[key], 'choice-icon') }} {{ label }}</label>
+    <label><input type="checkbox" name="goals" value="{{ key }}" {% if key in (form.get('goals') or []) %}checked{% endif %}>{{ icon({'variety':'shuffle','energy':'bolt','less_salty':'salt'}[key], 'choice-icon') }} {{ label }}</label>
   {% endfor %}
   </div>{{ err('goals') }}
-  <p id="energy-goal-note" class="field-note">Mục tiêu calo được áp dụng khi đủ thông tin. Chọn Kiểm soát năng lượng để yêu cầu nhập đủ thông tin.</p>
 </fieldset>
 
 <fieldset class="checklist-group" data-body-module>
