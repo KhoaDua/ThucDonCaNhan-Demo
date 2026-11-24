@@ -104,7 +104,7 @@
     <label><input type="checkbox" name="health_conditions" value="none" {% if 'none' in (form.get('health_conditions') or []) %}checked{% endif %}> Không có</label>
   </div>{{ err('health_conditions') }}
   <div data-disease-scenario>
-    <label for="health_scenario">Mục tiêu mô phỏng</label>
+    <label for="health_scenario">Mục tiêu</label>
     <select id="health_scenario" name="health_scenario"><option value="">Chọn mục tiêu</option>{% for key, label in disease_policy.scenarios.items() %}<option value="{{ key }}" {% if v('health_scenario')|trim == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>{{ err('health_scenario') }}
   </div>
 </fieldset>
